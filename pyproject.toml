@@ -1,0 +1,28 @@
+[project]
+name = "ai-knowledge-chatbot"
+version = "0.1.0"
+description = "Chatbot hỏi đáp tài liệu với RAG - giai đoạn học tuần 1 (rule-based CLI)"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest==9.1.1"]
+
+[project.scripts]
+chatbot = "chatbot.main:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+addopts = "-q"
