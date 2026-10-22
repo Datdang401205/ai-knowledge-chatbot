@@ -146,18 +146,33 @@ Có thể giữ cấu trúc đơn giản hơn trong tuần đầu. Không tạo 
 
 **Mục tiêu:** hiểu cấu trúc project và viết được chương trình chạy được.
 
-- [ ] Tạo thư mục project và môi trường ảo `.venv`.
-- [ ] Kiểm tra phiên bản Python và pip.
-- [ ] Ôn hàm, chuỗi, điều kiện, vòng lặp, `return`, import, exception.
-- [ ] Viết chatbot rule-based CLI phiên bản 0.1.
-- [ ] Tách logic trả lời khỏi hàm `main()`.
-- [ ] Thêm xử lý input rỗng và lệnh thoát.
-- [ ] Khởi tạo Git repository và commit đầu tiên.
-- [ ] Viết README sơ bộ: mục tiêu, cài đặt, cách chạy.
+- [x] Tạo thư mục project và môi trường ảo `.venv`. — `.venv/` đã tạo, đã thêm vào `.gitignore`.
+- [x] Kiểm tra phiên bản Python và pip. — Python 3.12.7, pip 26.2 (nâng cấp trong venv).
+- [x] Ôn hàm, chuỗi, điều kiện, vòng lặp, `return`, import, exception. — Ôn lại trong README mục 9 và áp dụng ngay trong code Tuần 1.
+- [x] Viết chatbot rule-based CLI phiên bản 0.1. — `src/chatbot/intents.py` + `src/chatbot/main.py` + launcher `src/main.py`.
+- [x] Tách logic trả lời khỏi hàm `main()`. — `main()` chỉ lo I/O; `get_reply()`/`find_intent()` là logic thuần, không in/ghi.
+- [x] Thêm xử lý input rỗng và lệnh thoát. — `exit/quit/q/thoát`, input rỗng, `EOFError`/`KeyboardInterrupt`.
+- [x] Khởi tạo Git repository và commit đầu tiên. — commit `2b6f5c8` "feat(week-1): rule-based chatbot CLI with tests, README and project setup".
+- [x] Viết README sơ bộ: mục tiêu, cài đặt, cách chạy. — `README.md` (12 mục, có cả phần bài tập Tuần 1).
 
-**Bài tập kiểm tra:** tự thêm một intent mới; giải thích `if __name__ == "__main__":`; chạy chương trình mà không cần chép lại từng bước.
+**Bài tập kiểm tra:**
+- [ ] Tự thêm một intent mới (`feedback`) — đã ghi hướng dẫn từng bước trong README mục 9.
+- [ ] Giải thích `if __name__ == "__main__":` — đã ghi trong README mục 9.
+- [ ] Chạy chương trình mà không cần chép lại từng bước — đã ghi sẵn chuỗi lệnh trong README mục 3 và 4.
 
-**Definition of Done:** chạy được trên máy local, có code dễ đọc, Git commit và README sơ bộ.
+**Definition of Done:** ✅ Đạt — chạy được trên máy local, code dễ đọc, có Git commit và README sơ bộ.
+
+### Ghi chú Tuần 1 (quyết định đã chốt)
+
+| Vấn đề | Quyết định | Lý do |
+|---|---|---|
+| Cấu trúc thư mục | Giữ `src/chatbot/` nhưng chưa tạo file rỗng cho các module của Tuần 2–6 | Đúng nguyên tắc "mỗi module thêm khi bắt đầu dùng" |
+| Cách chạy | Thêm launcher `src/main.py` (tự chèn `src` vào `sys.path`) | Vừa khớp lệnh `python src/main.py` trong plan, vừa giữ được package `chatbot` |
+| So khớp từ khóa | Khớp theo *cụm từ liên tiếp* trên token, không dùng `keyword in text` | `"hi" in "khi nào"` là `True` → khớp sai intent |
+| Tiếng Việt trên Windows | `configure_console_encoding()` ép UTF-8 cho stdin/stdout/stderr | Console mặc định `cp1252` gây `UnicodeEncodeError` |
+| Test CLI | `run_chatbot` nhận `input_func`/`output` qua tham số | Test được không cần gõ tay (dependency injection) |
+| Test tự động | `pyproject.toml` khai báo `pythonpath = ["src"]` | `pytest` tự tìm package `chatbot` mà không cần cài đặt |
+| Kết quả chạy | 30 test passed (`pytest`) | Xác minh bằng lệnh thật, không ước lượng |
 
 ### Tuần 2 — Làm quen LLM và prompt
 
@@ -334,14 +349,15 @@ Cập nhật sau mỗi buổi:
 | Ngày | Việc đã làm | Kết quả/test | Vướng mắc | Việc tiếp theo |
 |---|---|---|---|---|
 | YYYY-MM-DD | | | | |
+| 2026-10-22 | Tuần 1: tạo `.venv`, nâng pip, cài pytest, dựng package `src/chatbot` (config / intents / main), launcher `src/main.py`, 30 test, `.gitignore`, `.gitattributes`, `requirements.txt`, `pyproject.toml`, `.env.example`, README 12 mục, git init + commit đầu tiên | `pytest` → 30 passed; chạy tay `python src/main.py` xử lý đúng 5 intent + fallback + lệnh thoát; commit `2b6f5c8` | Console Windows dùng `cp1252` in tiếng Việt lỗi → đã ép UTF-8 bằng `configure_console_encoding()`; khớp từ khóa dạng substring gây nhầm "hi" trong "khi nào" → chuyển sang khớp cụm từ theo token | Làm bài tập Tuần 1 (thêm intent `feedback`, giải thích `if __name__ == "__main__":`), sau đó bắt đầu Tuần 2: cài Ollama + gọi LLM từ Python |
 
 ### Trạng thái hiện tại
 
-- [ ] Tuần 1 — Python project và chatbot CLI
+- [x] Tuần 1 — Python project và chatbot CLI *(hoàn thành 2026-10-22)*
 - [ ] Tuần 2 — LLM và prompt
 - [ ] Tuần 3 — PDF, chunking và embeddings
 - [ ] Tuần 4 — Retrieval và RAG
 - [ ] Tuần 5 — Đánh giá và cải thiện
 - [ ] Tuần 6 — API, UI và portfolio
 
-**Bước tiếp theo:** hoàn thành chatbot CLI đầu tiên, chạy `python src/main.py`, rồi tự thêm một intent mới và giải thích được từng phần của chương trình.
+**Bước tiếp theo:** làm nốt 3 bài tập kiểm tra của Tuần 1 (thêm intent `feedback`, giải thích `if __name__ == "__main__":`, tự chạy lại toàn bộ chuỗi lệnh mà không cần nhìn README), rồi bắt đầu Tuần 2 bằng việc kiểm tra phần cứng và cài Ollama với một model nhỏ.
