@@ -183,6 +183,10 @@ Quy tắc: một tính năng = một commit nhỏ, không commit `.env`, `.venv/
 
 ## 9. Bài tập Tuần 1 (bắt buộc để đóng Tuần 1)
 
+> 📘 **Tài liệu học chi tiết:** [`docs/BAI_HOC_TUAN_1.md`](docs/BAI_HOC_TUAN_1.md) —
+> giải thích từng bước của Tuần 1, kiến thức nền, 2 bug thật đã gặp, đáp án bài tập
+> và 12 câu tự kiểm tra. Đọc file này trước khi làm bài tập bên dưới.
+
 ### Bài 1 — Tự thêm một intent mới
 
 Thêm intent `feedback`:

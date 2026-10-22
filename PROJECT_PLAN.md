@@ -162,6 +162,8 @@ Có thể giữ cấu trúc đơn giản hơn trong tuần đầu. Không tạo 
 
 **Definition of Done:** ✅ Đạt — chạy được trên máy local, code dễ đọc, có Git commit và README sơ bộ.
 
+**Tài liệu học:** `docs/BAI_HOC_TUAN_1.md` — giải thích từng bước Tuần 1, kiến thức Python nền, 2 bug thật đã gặp, đáp án bài tập và 12 câu tự kiểm tra.
+
 ### Ghi chú Tuần 1 (quyết định đã chốt)
 
 | Vấn đề | Quyết định | Lý do |
