@@ -1,20 +1,21 @@
 # AI Knowledge Base Chatbot
 
-Chatbot hỏi đáp tài liệu dựa trên LLM + RAG (Retrieval-Augmented Generation).
-Dự án này được xây dựng theo lộ trình 6 tuần trong [`PROJECT_PLAN.md`](PROJECT_PLAN.md),
-mỗi tuần một chặng nhỏ, ưu tiên **hiểu rồi mới dùng** và **đo chất lượng** thay vì làm giao diện.
+Chatbot hỏi đáp tài liệu dựa trên RAG (Retrieval-Augmented Generation).
+Dự án xây dựng theo lộ trình 6 tuần trong [`PROJECT_PLAN.md`](PROJECT_PLAN.md),
+ưu tiên **hiểu cơ chế**, **đo chất lượng** và **không tuyên bố quá mức**.
 
-> **Trạng thái hiện tại: Tuần 1 xong — CLI rule-based v0.1.**
-> Chưa có LLM, chưa đọc PDF, chưa có vector store. Mục tiêu của tuần này là
-> dựng được nền móng Python + Git + test mà mọi phần sau sẽ dựa vào.
+> **Trạng thái: v0.6.0 — hoàn thành Tuần 1–6 ở mức demo local.**
+> Có PDF ingestion, chunking, embedding, vector store, retrieval hybrid,
+> trích dẫn nguồn, CLI, FastAPI, Streamlit, bộ 40 câu đánh giá và báo cáo thực nghiệm.
+> Chưa có ảnh/video demo, chưa deploy, chưa đo chất lượng với Ollama thật.
 
 ---
 
 ## 1. Mục tiêu sản phẩm
 
-Người dùng tải tài liệu PDF lên, đặt câu hỏi bằng tiếng Việt hoặc tiếng Anh và
-nhận câu trả lời **dựa trên nội dung tài liệu**, kèm **trích dẫn nguồn**.
-Khi tài liệu không có bằng chứng phù hợp, chatbot phải nói rõ *chưa tìm thấy bằng chứng*
+Người dùng tải tài liệu PDF/TXT/MD lên, đặt câu hỏi bằng tiếng Việt hoặc tiếng Anh
+và nhận câu trả lời **dựa trên nội dung tài liệu**, kèm **trích dẫn file + trang**.
+Khi không có bằng chứng phù hợp, chatbot nói rõ *chưa tìm thấy bằng chứng*
 thay vì tự bịa.
 
 ---
@@ -24,221 +25,281 @@ thay vì tự bịa.
 | Công cụ | Phiên bản | Ghi chú |
 |---|---|---|
 | Python | 3.11 hoặc 3.12 | Đã kiểm tra với 3.12.7 |
-| pip | kèm theo Python | Kiểm tra bằng `python -m pip --version` |
-| Git | bất kỳ | Dùng để lưu lịch sử và làm portfolio |
+| pip | kèm Python | Kiểm tra `python -m pip --version` |
+| Git | bất kỳ | Lưu lịch sử, làm portfolio |
+| Ollama | tùy chọn | Chỉ cần khi muốn embedding/LLM ngữ nghĩa |
 
-Không cần cài Ollama ở tuần 1. Sẽ cài ở Tuần 2 nếu phần cứng đáp ứng.
+Không cần Ollama để chạy mặc định: project dùng `HashingEmbedder` + generator
+`extractive`, hoàn toàn offline.
 
 ---
 
 ## 3. Cài đặt
 
 ```powershell
-# 1. Tạo môi trường ảo (tách biệt dependency của project khỏi máy)
 python -m venv .venv
-
-# 2. Kích hoạt môi trường ảo
 .\.venv\Scripts\Activate.ps1
-
-# 3. Cài thư viện cho môi trường này
 python -m pip install -r requirements.txt
 ```
 
-Nếu PowerShell báo lỗi khi kích hoạt, chạy:
+Nếu PowerShell chặn script kích hoạt:
 
 ```powershell
 Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
 ```
 
-Kiểm tra đã kích hoạt đúng: `python -c "import sys; print(sys.prefix)"` phải trỏ vào
+Kiểm tra đúng môi trường: `python -c "import sys; print(sys.prefix)"` phải trỏ vào
 `...AI_Knowledge_Base\.venv`.
 
 ---
 
 ## 4. Cách chạy
 
-Cách 1 — chạy file launcher (không cần kích hoạt venv nếu dùng đường dẫn đầy đủ):
+### 4.1 Tạo index từ tài liệu mẫu
 
 ```powershell
-.\.venv\Scripts\python.exe src\main.py
+.\.venv\Scripts\python.exe src\main.py ingest
 ```
 
-Cách 2 — chạy như một module (đã kích hoạt venv):
+Kết quả mong đợi: đọc 4 file (3 có text), tạo 12 chunk, cảnh báo
+`scan_khong_text.pdf` không có text. Index nằm ở `data/index/store.json`.
+
+### 4.2 Hỏi một câu
 
 ```powershell
-python src\main.py
-# hoặc
-cd src
-python -m chatbot.main
+.\.venv\Scripts\python.exe src\main.py ask "Top-k ảnh hưởng gì tới chất lượng trả lời?"
 ```
 
-Mẫu hội thoại:
+Thêm `--retrieve-only` để xem chunk trước khi sinh câu trả lời:
 
-```text
-Xin chào! Tôi là AI Knowledge Base Chatbot (v0.1.0, chế độ rule-based).
-...
-Bạn> Xin chào
-Chào bạn! Tôi có thể giải thích chức năng của chatbot này. Bạn muốn biết gì?
-Bạn> exit
-Tạm biệt! Hẹn gặp lại.
+```powershell
+.\.venv\Scripts\python.exe src\main.py ask --retrieve-only "OTD được tính thế nào?"
+```
+
+### 4.3 Chat trong terminal
+
+```powershell
+.\.venv\Scripts\python.exe src\main.py chat          # chat rule-based Tuần 1–2
+.\.venv\Scripts\python.exe src\main.py chat --rag    # chat dựa trên index
 ```
 
 Lệnh thoát: `exit`, `quit`, `q`, `thoát`.
 
-### Về tiếng Việt trên Windows
-
-Windows mặc định dùng bảng mã `cp1252`, in tiếng Việt sẽ lỗi
-`UnicodeEncodeError`. Code đã tự ép console về UTF-8 trong
-`configure_console_encoding()`. Nếu vẫn lỗi khi *paste* từ file, chạy:
+### 4.4 API FastAPI
 
 ```powershell
-chcp 65001
+.\.venv\Scripts\python.exe src\main.py serve --reload
 ```
+
+Mở http://127.0.0.1:8000/docs. Các endpoint:
+
+| Method | Path | Chức năng |
+|---|---|---|
+| GET | `/health` | Trạng thái + số chunk |
+| GET | `/stats` | Thống kê index |
+| POST | `/ask` | `{"question": "...", "top_k": 4}` |
+| POST | `/documents` | Upload `.pdf/.txt/.md` (tối đa 15 MB) |
+
+### 4.5 Giao diện Streamlit
+
+```powershell
+.\.venv\Scripts\streamlit.exe run src\chatbot\streamlit_app.py
+```
+
+Giao diện có build index, upload tài liệu, chat và xem nguồn.
+
+### 4.6 Đánh giá và thực nghiệm
+
+```powershell
+.\.venv\Scripts\python.exe src\main.py eval --top-k 4
+.\.venv\Scripts\python.exe scripts\run_experiments.py
+```
+
+Báo cáo ghi vào `reports/evaluation.md` và `reports/experiments.md`.
+
+### Về tiếng Việt trên Windows
+
+Code tự ép console về UTF-8 trong `configure_console_encoding()`. Nếu vẫn lỗi
+khi paste từ file, chạy `chcp 65001`.
 
 ---
 
-## 5. Cấu trúc thư mục
+## 5. Kiến trúc và cấu trúc thư mục
+
+```text
+PDF/TXT/MD
+   │  ingest.py (PyMuPDF, chuẩn hoá text, cảnh báo PDF scan)
+   ▼
+PageText ──► chunking.py (700 ký tự, overlap 120, ID ổn định)
+   ▼
+embeddings.py (hashing offline hoặc Ollama)
+   ▼
+vector_store.py (numpy + JSON, cosine)
+   ▼
+retrieval.py (0.5 cosine + 0.5 lexical IDF, ngưỡng liên quan)
+   ▼
+generation.py (extractive mặc định, Ollama tùy chọn)
+   ▼
+Answer + Source(file, page, score, chunk_id)
+```
 
 ```text
 AI_Knowledge_Base/
 ├── data/
-│   └── sample_docs/           # Tài liệu mẫu (Tuần 3)
-├── reports/                   # Báo cáo đánh giá (Tuần 5)
+│   ├── sample_docs/            # 3 PDF mẫu + 1 PDF scan để test lỗi
+│   ├── eval_questions.json     # 40 câu đánh giá
+│   └── index/                  # store.json + manifest.json (sinh tự động)
+├── docs/
+│   ├── BAI_HOC_TUAN_1.md ... BAI_HOC_TUAN_6.md
+├── reports/
+│   ├── evaluation.md / evaluation_results.json
+│   └── experiments.md / experiments_results.json
+├── scripts/
+│   ├── make_sample_docs.py
+│   └── run_experiments.py
 ├── src/
-│   ├── main.py                # Launcher: python src/main.py
+│   ├── main.py                 # launcher
 │   └── chatbot/
-│       ├── __init__.py
-│       ├── config.py          # Hằng số cấu hình
-│       ├── intents.py         # Nhận diện intent + sinh câu trả lời
-│       └── main.py            # Vòng lặp CLI
-├── tests/
-│   ├── test_intents.py
-│   ├── test_cli.py
-│   └── test_cli_entrypoint.py
+│       ├── config.py           # hằng số + biến môi trường
+│       ├── ingest.py           # đọc PDF/TXT/MD
+│       ├── chunking.py         # chia đoạn + metadata
+│       ├── embeddings.py       # hashing / Ollama
+│       ├── vector_store.py     # lưu và tìm vector
+│       ├── retrieval.py        # truy xuất hybrid
+│       ├── generation.py       # extractive / Ollama + trích dẫn
+│       ├── rag_pipeline.py     # ghép toàn bộ luồng
+│       ├── evaluation.py       # Hit Rate, Recall, MRR, abstention
+│       ├── cli.py              # chat/ingest/ask/eval/serve
+│       ├── api.py              # FastAPI
+│       ├── streamlit_app.py    # giao diện web
+│       ├── llm.py              # client Ollama (Tuần 2)
+│       ├── responder.py        # rule-based / LLM
+│       ├── intents.py          # intent Tuần 1
+│       └── main.py             # vòng lặp chat
+├── tests/                      # 84 test
 ├── .env.example
-├── .gitignore
 ├── pyproject.toml
 ├── requirements.txt
 ├── README.md
 └── PROJECT_PLAN.md
 ```
 
-Quy ước quan trọng: **`main` chỉ lo giao tiếp, logic nằm ở module khác.**
+---
 
-```text
-input() ──► run_chatbot ──► get_reply ──► find_intent ──► reply
-                                              ▲
-                        (không có I/O trong chuỗi này → dễ test)
+## 6. Nguyên tắc hoạt động
+
+1. **Ingest theo trang** để giữ `source + page`; PDF scan bị cảnh báo, không im lặng bỏ qua.
+2. **Chunk theo ranh giới câu/đoạn**, có overlap để không cắt đôi ý.
+3. **Embedding offline** bằng hashing trick: từ + char 3-gram + bigram, chuẩn hoá L2.
+   Cách này tất định và không cần model, nhưng **không hiểu đồng nghĩa**.
+4. **Retrieval hybrid**: cosine bắt tương đồng bề mặt, lexical coverage có IDF giúp
+   thuật ngữ hiếm (`OTD`, `FastAPI`) thắng từ phổ biến (`tính`, `hệ thống`).
+5. **Chống bịa**: ngưỡng `MIN_RELEVANCE_SCORE`, kiểm tra tên riêng/viết tắt lạ,
+   và generator chỉ được dùng ngữ cảnh đã truy xuất.
+6. **Trích dẫn** chỉ lấy nguồn thực sự được dùng để tạo câu trả lời.
+
+Đổi backend bằng biến môi trường trong `.env`:
+
+```dotenv
+EMBEDDING_PROVIDER=hashing   # hoặc ollama
+LLM_PROVIDER=extractive      # hoặc ollama
 ```
 
 ---
 
-## 6. Chatbot v0.1 hoạt động thế nào
+## 7. Kết quả đã đo
 
-1. **Chuẩn hóa** (`normalize`): chữ thường, bỏ dấu tiếng Việt, bỏ dấu câu, gộp khoảng trắng.
-   Nhờ vậy `"Xin chào"`, `"xin chào!"`, `"chao"` đều ra cùng một kết quả.
-2. **Tách token**: `"xin chao ban"` → `("xin", "chao", "ban")`.
-3. **Khớp cụm từ** (`_contains_phrase`): intent khớp nếu một *cụm từ liên tiếp* trong
-   câu bằng với từ khóa của intent.
-   Không dùng `keyword in text` vì `"hi" in "khi nào"` là `True` → khớp nhầm.
-4. **Sinh trả lời**: trả `reply` của intent tìm được; không khớp thì trả `FALLBACK_REPLY`.
+Lần chạy `eval --top-k 4`, chunk 700/overlap 120, `HashingEmbedder`,
+generator `extractive`, 40 câu hỏi:
 
-Các intent hiện có: `greeting`, `capabilities`, `upload_document`, `thanks`, `query_document`.
+| Thước đo | Kết quả |
+|---|---|
+| Hit Rate@4 | 86.1% |
+| Recall@4 | 86.1% |
+| MRR | 0.806 |
+| Answer accuracy (keyword, tự động) | 72.5% |
+| Citation rate | 86.1% |
+| Abstention accuracy (4 câu ngoài tài liệu) | 100% |
+| Độ trễ trung bình | 2.79 ms |
+
+Thực nghiệm chunk size × top-k (`reports/experiments.md`): MRR cao nhất 0.833 ở
+chunk 400; top-k không đổi Hit Rate trên bộ tài liệu nhỏ vì đáp án đúng đã ở hạng 1.
+
+**Cách đọc số liệu:** đây là baseline extractive trên 3 tài liệu ngắn do chính
+project sinh ra. Không dùng các con số này để suy rộng cho tài liệu dài, tiếng Anh
+hoặc miền tri thức khác.
 
 ---
 
-## 7. Chạy test
+## 8. Chạy test
 
 ```powershell
 .\.venv\Scripts\python.exe -m pytest
 ```
 
-Kết quả hiện tại: **30 test passed**.
-
-Ba tầng test trong dự án:
+Kết quả hiện tại: **84 passed**.
 
 | Tệp | Tầng | Kiểm tra gì |
 |---|---|---|
-| `test_intents.py` | unit | Hàm `normalize`, `find_intent`, `get_reply` |
-| `test_cli.py` | unit + giả lập terminal | Vòng lặp CLI với input/output giả |
-| `test_cli_entrypoint.py` | integration | Chạy thật `src/main.py` như tiến trình con |
+| `test_intents.py` | unit | Chuẩn hoá, intent, fallback |
+| `test_cli.py` | unit + giả lập terminal | Vòng lặp chat, lệnh thoát |
+| `test_cli_entrypoint.py` | integration | Chạy thật `src/main.py` |
+| `test_llm_errors.py` | unit | Lỗi timeout/kết nối/rỗng của Ollama |
+| `test_chunking.py` | unit | Chunk, overlap, ID ổn định, metadata |
+| `test_ingest.py` | unit | Đọc TXT/MD, chuẩn hoá PDF, định dạng lỗi |
+| `test_embeddings.py` | unit | Vector tất định, chuẩn hoá, tương đồng |
+| `test_vector_store.py` | unit | Add/search/save/load, dedupe, ngưỡng |
+| `test_retrieval.py` | unit | Hybrid ranking, từ chối thực thể lạ |
+| `test_rag_pipeline.py` | integration | Build index, ask, persist/reload, upload |
+| `test_evaluation.py` | unit | Hit Rate, abstention, JSON lỗi |
+| `test_api.py` | integration | `/health`, `/ask`, upload, lỗi 415 |
 
-Kỹ thuật đáng học ở `test_cli.py`: `run_chatbot` nhận sẵn `input_func` và `output`
-qua tham số nên test được **không cần gõ tay** — đây là *dependency injection*.
+Kỹ thuật đáng học: `RAGPipeline` là điểm vào duy nhất nên CLI, API và UI dùng
+chung logic; test không cần chạy server thật.
 
 ---
 
-## 8. Git
+## 9. Bài học theo tuần
+
+| Tuần | Tài liệu | Nội dung chính |
+|---|---|---|
+| 1 | [`docs/BAI_HOC_TUAN_1.md`](docs/BAI_HOC_TUAN_1.md) | Python, CLI, test, Git |
+| 2 | [`docs/BAI_HOC_TUAN_2.md`](docs/BAI_HOC_TUAN_2.md) | LLM, prompt, Ollama, lỗi mạng |
+| 3 | [`docs/BAI_HOC_TUAN_3.md`](docs/BAI_HOC_TUAN_3.md) | PDF, chunking, embedding |
+| 4 | [`docs/BAI_HOC_TUAN_4.md`](docs/BAI_HOC_TUAN_4.md) | Vector store, retrieval, grounding |
+| 5 | [`docs/BAI_HOC_TUAN_5.md`](docs/BAI_HOC_TUAN_5.md) | Hit Rate, Recall, MRR, thực nghiệm |
+| 6 | [`docs/BAI_HOC_TUAN_6.md`](docs/BAI_HOC_TUAN_6.md) | FastAPI, Streamlit, đóng gói demo |
+
+---
+
+## 10. Giới hạn hiện tại
+
+- **PDF scan** không có text: chỉ cảnh báo, chưa OCR.
+- **Bảng biểu phức tạp** có thể bị mất cấu trúc khi trích text.
+- **Hashing embedding** không hiểu đồng nghĩa/ngoại ngữ; 6 câu paraphrase tiếng Anh
+  trong bộ eval chỉ đạt 1/6 Hit Rate. Muốn cải thiện phải dùng `OllamaEmbedder`
+  hoặc model đa ngôn ngữ.
+- **Extractive generator** trích câu nên câu trả lời có thể cụt hoặc ghép nhiều ý;
+  chưa đo chất lượng với LLM thật vì máy chưa cài Ollama.
+- **Bộ eval nhỏ** (40 câu, 3 tài liệu ngắn) và do người làm project soạn → có thiên lệch.
+- **Answer accuracy** là kiểm tra từ khóa tự động, không thay thế chấm thủ công.
+- **Chưa có ảnh/video demo, chưa deploy.**
+- Không tuyên bố chatbot "không bao giờ hallucinate".
+
+---
+
+## 11. Git
 
 ```powershell
-git init
 git add .
-git commit -m "feat: week 1 - rule-based chatbot CLI with tests and README"
+git commit -m "feat(week-6): RAG pipeline, evaluation, FastAPI and Streamlit demo"
 ```
 
-Quy tắc: một tính năng = một commit nhỏ, không commit `.env`, `.venv/`, `__pycache__/`
-(đã cấu hình trong `.gitignore`).
+Quy tắc: một tính năng = một commit nhỏ; không commit `.env`, `.venv/`,
+`__pycache__/`, index sinh tự động.
 
 ---
 
-## 9. Bài tập Tuần 1 (bắt buộc để đóng Tuần 1)
-
-> 📘 **Tài liệu học chi tiết:** [`docs/BAI_HOC_TUAN_1.md`](docs/BAI_HOC_TUAN_1.md) —
-> giải thích từng bước của Tuần 1, kiến thức nền, 2 bug thật đã gặp, đáp án bài tập
-> và 12 câu tự kiểm tra. Đọc file này trước khi làm bài tập bên dưới.
-
-### Bài 1 — Tự thêm một intent mới
-
-Thêm intent `feedback`:
-
-1. Mở `src/chatbot/intents.py`.
-2. Thêm một `Intent(...)` mới vào `INTENTS` — **nhớ đặt trước `query_document`**
-   nếu từ khóa có thể trùng (thứ tự khớp quyết định intent nào thắng).
-3. Chạy lại `python src/main.py` và thử gõ "góp ý của tôi là ..."
-4. Thêm test tương ứng trong `tests/test_intents.py`.
-
-### Bài 2 — Giải thích `if __name__ == "__main__":`
-
-Khi chạy `python src/main.py`, Python đặt `__name__ = "__main__"`.
-Khi file được `import` (ví dụ `from chatbot.main import main`), `__name__` là `"chatbot.main"`.
-Vì vậy khối `if __name__ == "__main__":` **chỉ chạy khi file được thực thi trực tiếp**,
-không chạy khi file bị import — điều kiện cần thiết để một module vừa là thư viện
-vừa là chương trình chạy được mà không lặp vô hạn.
-
-### Bài 3 — Chạy chương trình mà không cần chép lại từng bước
-
-Tự nhớ thứ tự: tạo venv → kích hoạt → cài requirements → chạy.
-Ghi lại các lệnh đó vào mục "Cài đặt" của README (nếu README của bạn khác bản này).
-
-### Bài 4 — Ôn lại Python
-
-Tự trả lời được các câu trong `PROJECT_PLAN.md` mục 9 (Python và backend):
-list/dict/tuple/set, `return` vs `print`, vì sao dùng virtual environment,
-API/HTTP/JSON, exception và logging để làm gì.
-
----
-
-## 10. Kế hoạch Tuần 2 (xem trước)
-
-Thay phần trả lời theo luật bằng LLM:
-
-- Cài Ollama, chọn model nhỏ phù hợp phần cứng.
-- Gọi model từ Python qua API local (`http://localhost:11434`).
-- Tách cấu hình model/URL/timout ra `config.py` (đọc từ biến môi trường, dùng `.env`).
-- Xử lý timeout, lỗi kết nối, câu trả lời rỗng.
-- Viết prompt yêu cầu trả lời bằng đúng ngôn ngữ và thừa nhận khi không biết.
-
----
-
-## 11. Giới hạn hiện tại (nói rõ để không tuyên bố quá)
-
-- Chưa dùng LLM: câu trả lời đến từ từ khóa cố định.
-- Chưa đọc PDF, chưa có embeddings, chưa có vector store.
-- Chưa có trích dẫn nguồn (sẽ có ở Tuần 4).
-- Chưa có UI/API (sẽ có ở Tuần 6).
-
----
-
-## 12. Bản quyền / giấy phép
+## 12. Bản quyền
 
 Chưa chọn license. Sẽ thêm khi hoàn thiện dự án.

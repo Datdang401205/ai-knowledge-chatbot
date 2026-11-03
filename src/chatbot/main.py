@@ -1,4 +1,4 @@
-"""Vòng lặp CLI của chatbot v0.1.
+"""Vòng lặp CLI của chatbot.
 
 Nguyên tắc của tuần này: ``main`` chỉ lo phần *giao tiếp* (đọc input, in output,
 thoát chương trình); phần *quyết định trả lời* nằm trong ``chatbot.intents``.
@@ -20,7 +20,8 @@ from chatbot.config import (
     PROMPT,
     WELCOME_MESSAGE,
 )
-from chatbot.intents import get_reply, normalize
+from chatbot.intents import normalize
+from chatbot.responder import get_reply
 
 logger = logging.getLogger(__name__)
 

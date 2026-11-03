@@ -49,17 +49,19 @@ INTENTS: tuple[Intent, ...] = (
             "capabilities",
         ),
         reply=(
-            "Chatbot này hiện ở phiên bản rule-based: nhận diện chủ đề theo từ khóa "
-            "(chào hỏi, chức năng, tải tài liệu, cảm ơn) và trả lời cố định. "
-            "Tuần sau sẽ thay phần trả lời bằng LLM."
+            "Chatbot có hai phần: chat rule-based/LLM và hỏi đáp tài liệu (RAG). "
+            "Chat rule-based nhận diện chủ đề theo từ khóa; chế độ LLM gọi Ollama local. "
+            "Với RAG, chạy `python src/main.py chat --rag` hoặc dùng FastAPI/Streamlit "
+            "để tải PDF/TXT/MD và nhận câu trả lời kèm nguồn."
         ),
     ),
     Intent(
         name="upload_document",
         keywords=("tai len", "upload", "them tai lieu", "nap tai lieu", "tai lieu moi"),
         reply=(
-            "Ở phiên bản 0.1 chưa có chức năng tải tài liệu lên. "
-            "Tính năng đọc PDF và lưu vào vector store sẽ được xây dựng ở Tuần 3."
+            "Bạn có thể tải tài liệu qua giao diện Streamlit hoặc API POST /documents "
+            "(hỗ trợ PDF, TXT, MD). Nếu dùng terminal, đặt file vào data/sample_docs "
+            "rồi chạy `python src/main.py ingest`."
         ),
     ),
     Intent(

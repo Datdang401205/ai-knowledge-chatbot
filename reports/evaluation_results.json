@@ -1,0 +1,1090 @@
+{
+  "summary": {
+    "questions": 40,
+    "answerable": 36,
+    "unanswerable": 4,
+    "errors": 0,
+    "hit_rate_at_k": 0.8611,
+    "recall_at_k": 0.8611,
+    "mrr": 0.8056,
+    "answer_accuracy": 0.725,
+    "citation_rate": 0.8611,
+    "abstention_accuracy": 1.0,
+    "avg_latency_ms": 2.87
+  },
+  "config": {
+    "top_k": 4,
+    "chunk_size": 700,
+    "overlap": 120,
+    "embedding": "HashingEmbedder",
+    "generator": "extractive",
+    "chunks": 12,
+    "sources": 3
+  },
+  "generated_at": "2026-11-03T07:56:54+00:00",
+  "questions": [
+    {
+      "id": "q01",
+      "category": "factual",
+      "question": "RAG là gì?",
+      "expected_sources": [
+        {
+          "file": "rag_co_ban.pdf",
+          "page": 1
+        }
+      ],
+      "retrieved_sources": [
+        {
+          "file": "rag_co_ban.pdf",
+          "page": 2
+        },
+        {
+          "file": "rag_co_ban.pdf",
+          "page": 1
+        },
+        {
+          "file": "rag_co_ban.pdf",
+          "page": 4
+        }
+      ],
+      "first_relevant_rank": 2,
+      "hit": true,
+      "recall": 1.0,
+      "evidence_found": true,
+      "answer": "Theo tài liệu: RAG (Retrieval-Augmented Generation) là kiến trúc kết hợp truy xuất tài liệu với mô hình ngôn ngữ lớn. Pipeline RAG gồm hai pha Pha ngoại tuyến (ingest): - Trích xuất text từ PDF theo từng trang. - Chia văn bản thành chunk có overlap. (Nguồn: [rag_co_ban.pdf, trang 2]; [rag_co_ban.pdf, trang 1])",
+      "has_citation": true,
+      "keyword_coverage": 0.6,
+      "correct": true,
+      "latency_ms": 4.2195999994874,
+      "error": ""
+    },
+    {
+      "id": "q02",
+      "category": "factual",
+      "question": "Ba thành phần chính của RAG là gì?",
+      "expected_sources": [
+        {
+          "file": "rag_co_ban.pdf",
+          "page": 1
+        }
+      ],
+      "retrieved_sources": [
+        {
+          "file": "rag_co_ban.pdf",
+          "page": 1
+        }
+      ],
+      "first_relevant_rank": 1,
+      "hit": true,
+      "recall": 1.0,
+      "evidence_found": true,
+      "answer": "Theo tài liệu: Ba thành phần chính của RAG: Kho tri thức: tài liệu đã được chia nhỏ thành chunk và chuyển thành embedding. Bộ truy xuất: tìm top-k chunk gần câu hỏi nhất. (Nguồn: [rag_co_ban.pdf, trang 1])",
+      "has_citation": true,
+      "keyword_coverage": 0.6875,
+      "correct": true,
+      "latency_ms": 3.534199990099296,
+      "error": ""
+    },
+    {
+      "id": "q03",
+      "category": "reasoning",
+      "question": "Khi nào nên dùng RAG thay vì fine-tuning?",
+      "expected_sources": [
+        {
+          "file": "rag_co_ban.pdf",
+          "page": 1
+        }
+      ],
+      "retrieved_sources": [
+        {
+          "file": "rag_co_ban.pdf",
+          "page": 1
+        }
+      ],
+      "first_relevant_rank": 1,
+      "hit": true,
+      "recall": 1.0,
+      "evidence_found": true,
+      "answer": "Theo tài liệu: Fine-tuning phù hợp hơn khi cần thay đổi phong cách, định dạng đầu ra, hoặc dạy một kỹ năng mới cho mô hình. RAG phù hợp khi kiến thức thay đổi thường xuyên hoặc khi cần dẫn nguồn. (Nguồn: [rag_co_ban.pdf, trang 1])",
+      "has_citation": true,
+      "keyword_coverage": 1.0,
+      "correct": true,
+      "latency_ms": 2.972100002807565,
+      "error": ""
+    },
+    {
+      "id": "q04",
+      "category": "factual",
+      "question": "Pha ingest trong pipeline RAG gồm những bước nào?",
+      "expected_sources": [
+        {
+          "file": "rag_co_ban.pdf",
+          "page": 2
+        }
+      ],
+      "retrieved_sources": [
+        {
+          "file": "rag_co_ban.pdf",
+          "page": 2
+        }
+      ],
+      "first_relevant_rank": 1,
+      "hit": true,
+      "recall": 1.0,
+      "evidence_found": true,
+      "answer": "Theo tài liệu: Pipeline RAG gồm hai pha Pha ngoại tuyến (ingest): - Trích xuất text từ PDF theo từng trang. - Chia văn bản thành chunk có overlap. Pha truy vấn (query): - Chuyển câu hỏi thành embedding bằng cùng mô hình. - Tìm top-k chunk có cosine similarity cao nhất. (Nguồn: [rag_co_ban.pdf, trang 2])",
+      "has_citation": true,
+      "keyword_coverage": 0.6470588235294118,
+      "correct": true,
+      "latency_ms": 3.8274999969871715,
+      "error": ""
+    },
+    {
+      "id": "q05",
+      "category": "factual",
+      "question": "Top-k mặc định và ngưỡng liên quan mặc định của project là bao nhiêu?",
+      "expected_sources": [
+        {
+          "file": "rag_co_ban.pdf",
+          "page": 2
+        }
+      ],
+      "retrieved_sources": [
+        {
+          "file": "rag_co_ban.pdf",
+          "page": 2
+        },
+        {
+          "file": "rag_co_ban.pdf",
+          "page": 3
+        }
+      ],
+      "first_relevant_rank": 1,
+      "hit": true,
+      "recall": 1.0,
+      "evidence_found": true,
+      "answer": "Theo tài liệu: Trong project này, top-k mặc định là 4 và ngưỡng liên quan mặc định là 0.18. Pha truy vấn (query): - Chuyển câu hỏi thành embedding bằng cùng mô hình. - Tìm top-k chunk có cosine similarity cao nhất. (Nguồn: [rag_co_ban.pdf, trang 2])",
+      "has_citation": true,
+      "keyword_coverage": 1.0,
+      "correct": true,
+      "latency_ms": 4.050799994729459,
+      "error": ""
+    },
+    {
+      "id": "q06",
+      "category": "factual",
+      "question": "Chunk size và overlap mặc định trong project là bao nhiêu?",
+      "expected_sources": [
+        {
+          "file": "rag_co_ban.pdf",
+          "page": 3
+        }
+      ],
+      "retrieved_sources": [
+        {
+          "file": "rag_co_ban.pdf",
+          "page": 2
+        },
+        {
+          "file": "rag_co_ban.pdf",
+          "page": 3
+        }
+      ],
+      "first_relevant_rank": 2,
+      "hit": true,
+      "recall": 1.0,
+      "evidence_found": true,
+      "answer": "Theo tài liệu: Pipeline RAG gồm hai pha Pha ngoại tuyến (ingest): - Trích xuất text từ PDF theo từng trang. - Chia văn bản thành chunk có overlap. Chunking và các tham số quan trọng Chunk là một đoạn văn bản nhỏ được truy xuất độc lập. (Nguồn: [rag_co_ban.pdf, trang 2]; [rag_co_ban.pdf, trang 3])",
+      "has_citation": true,
+      "keyword_coverage": 0.3333333333333333,
+      "correct": false,
+      "latency_ms": 4.741700002341531,
+      "error": ""
+    },
+    {
+      "id": "q07",
+      "category": "reasoning",
+      "question": "Top-k nhỏ và top-k lớn ảnh hưởng thế nào đến chất lượng?",
+      "expected_sources": [
+        {
+          "file": "rag_co_ban.pdf",
+          "page": 3
+        }
+      ],
+      "retrieved_sources": [
+        {
+          "file": "rag_co_ban.pdf",
+          "page": 3
+        }
+      ],
+      "first_relevant_rank": 1,
+      "hit": true,
+      "recall": 1.0,
+      "evidence_found": true,
+      "answer": "Theo tài liệu: Top-k ảnh hưởng trực tiếp: - Top-k nhỏ (1-2): nhanh, ít nhiễu, nhưng dễ bỏ sót bằng chứng. - Top-k lớn (8-10): tăng recall, nhưng prompt dài, chậm và dễ làm LLM lạc đề. (Nguồn: [rag_co_ban.pdf, trang 3])",
+      "has_citation": true,
+      "keyword_coverage": 1.0,
+      "correct": true,
+      "latency_ms": 3.616899994085543,
+      "error": ""
+    },
+    {
+      "id": "q08",
+      "category": "factual",
+      "question": "Hit Rate@k và Recall@k đo gì?",
+      "expected_sources": [
+        {
+          "file": "rag_co_ban.pdf",
+          "page": 4
+        }
+      ],
+      "retrieved_sources": [
+        {
+          "file": "rag_co_ban.pdf",
+          "page": 3
+        },
+        {
+          "file": "rag_co_ban.pdf",
+          "page": 4
+        }
+      ],
+      "first_relevant_rank": 2,
+      "hit": true,
+      "recall": 1.0,
+      "evidence_found": true,
+      "answer": "Theo tài liệu: Chiến lược tốt là đo Hit Rate@k và Recall@k trên bộ câu hỏi cố định trước khi tăng k. - Hit Rate@k: tỷ lệ câu hỏi có ít nhất một nguồn đúng trong top-k. (Nguồn: [rag_co_ban.pdf, trang 3]; [rag_co_ban.pdf, trang 4])",
+      "has_citation": true,
+      "keyword_coverage": 0.8,
+      "correct": true,
+      "latency_ms": 4.018599996925332,
+      "error": ""
+    },
+    {
+      "id": "q09",
+      "category": "factual",
+      "question": "MRR là gì?",
+      "expected_sources": [
+        {
+          "file": "rag_co_ban.pdf",
+          "page": 4
+        }
+      ],
+      "retrieved_sources": [
+        {
+          "file": "rag_co_ban.pdf",
+          "page": 4
+        }
+      ],
+      "first_relevant_rank": 1,
+      "hit": true,
+      "recall": 1.0,
+      "evidence_found": true,
+      "answer": "Theo tài liệu: - MRR: nghịch đảo thứ hạng của nguồn đúng đầu tiên. (Nguồn: [rag_co_ban.pdf, trang 4])",
+      "has_citation": true,
+      "keyword_coverage": 1.0,
+      "correct": true,
+      "latency_ms": 3.8321000029100105,
+      "error": ""
+    },
+    {
+      "id": "q10",
+      "category": "reasoning",
+      "question": "RAG có loại bỏ hoàn toàn hallucination không?",
+      "expected_sources": [
+        {
+          "file": "rag_co_ban.pdf",
+          "page": 4
+        }
+      ],
+      "retrieved_sources": [
+        {
+          "file": "rag_co_ban.pdf",
+          "page": 4
+        },
+        {
+          "file": "rag_co_ban.pdf",
+          "page": 1
+        }
+      ],
+      "first_relevant_rank": 1,
+      "hit": true,
+      "recall": 1.0,
+      "evidence_found": true,
+      "answer": "Theo tài liệu: Giới hạn của RAG và cách đánh giá RAG không loại bỏ hoàn toàn hallucination. RAG (Retrieval-Augmented Generation) là kiến trúc kết hợp truy xuất tài liệu với mô hình ngôn ngữ lớn. (Nguồn: [rag_co_ban.pdf, trang 4]; [rag_co_ban.pdf, trang 1])",
+      "has_citation": true,
+      "keyword_coverage": 0.21052631578947367,
+      "correct": false,
+      "latency_ms": 4.260500005329959,
+      "error": ""
+    },
+    {
+      "id": "q11",
+      "category": "factual",
+      "question": "PDF scan không có lớp text thì phải xử lý thế nào?",
+      "expected_sources": [
+        {
+          "file": "rag_co_ban.pdf",
+          "page": 4
+        }
+      ],
+      "retrieved_sources": [
+        {
+          "file": "rag_co_ban.pdf",
+          "page": 4
+        }
+      ],
+      "first_relevant_rank": 1,
+      "hit": true,
+      "recall": 1.0,
+      "evidence_found": true,
+      "answer": "Theo tài liệu: Các giới hạn thường gặp: - PDF scan không có lớp text: cần OCR trước. - Bảng biểu phức tạp bị trích xuất sai thứ tự. (Nguồn: [rag_co_ban.pdf, trang 4])",
+      "has_citation": true,
+      "keyword_coverage": 0.6666666666666666,
+      "correct": true,
+      "latency_ms": 4.129799999645911,
+      "error": ""
+    },
+    {
+      "id": "q12",
+      "category": "factual",
+      "question": "List khác dict như thế nào?",
+      "expected_sources": [
+        {
+          "file": "python_fastapi.pdf",
+          "page": 1
+        }
+      ],
+      "retrieved_sources": [
+        {
+          "file": "python_fastapi.pdf",
+          "page": 1
+        }
+      ],
+      "first_relevant_rank": 1,
+      "hit": true,
+      "recall": 1.0,
+      "evidence_found": true,
+      "answer": "Theo tài liệu: Python nền tảng cho backend List là dãy có thứ tự và thay đổi được. (Nguồn: [python_fastapi.pdf, trang 1])",
+      "has_citation": true,
+      "keyword_coverage": 0.3125,
+      "correct": false,
+      "latency_ms": 2.7688999980455264,
+      "error": ""
+    },
+    {
+      "id": "q13",
+      "category": "factual",
+      "question": "return khác print ở điểm nào?",
+      "expected_sources": [
+        {
+          "file": "python_fastapi.pdf",
+          "page": 1
+        }
+      ],
+      "retrieved_sources": [
+        {
+          "file": "python_fastapi.pdf",
+          "page": 1
+        }
+      ],
+      "first_relevant_rank": 1,
+      "hit": true,
+      "recall": 1.0,
+      "evidence_found": true,
+      "answer": "Theo tài liệu: Muốn test tự động thì phải dùng return vì test cần nhận giá trị, không đọc màn hình. (Nguồn: [python_fastapi.pdf, trang 1])",
+      "has_citation": true,
+      "keyword_coverage": 0.5,
+      "correct": true,
+      "latency_ms": 2.371900001890026,
+      "error": ""
+    },
+    {
+      "id": "q14",
+      "category": "reasoning",
+      "question": "Vì sao nên dùng virtual environment?",
+      "expected_sources": [
+        {
+          "file": "python_fastapi.pdf",
+          "page": 1
+        }
+      ],
+      "retrieved_sources": [
+        {
+          "file": "python_fastapi.pdf",
+          "page": 1
+        }
+      ],
+      "first_relevant_rank": 1,
+      "hit": true,
+      "recall": 1.0,
+      "evidence_found": true,
+      "answer": "Theo tài liệu: Muốn test tự động thì phải dùng return vì test cần nhận giá trị, không đọc màn hình. Xử lý exception giúp chương trình báo lỗi rõ ràng thay vì crash. (Nguồn: [python_fastapi.pdf, trang 1])",
+      "has_citation": true,
+      "keyword_coverage": 0.0,
+      "correct": false,
+      "latency_ms": 2.655899996170774,
+      "error": ""
+    },
+    {
+      "id": "q15",
+      "category": "factual",
+      "question": "FastAPI là gì?",
+      "expected_sources": [
+        {
+          "file": "python_fastapi.pdf",
+          "page": 2
+        }
+      ],
+      "retrieved_sources": [
+        {
+          "file": "python_fastapi.pdf",
+          "page": 3
+        },
+        {
+          "file": "python_fastapi.pdf",
+          "page": 2
+        }
+      ],
+      "first_relevant_rank": 2,
+      "hit": true,
+      "recall": 1.0,
+      "evidence_found": true,
+      "answer": "Theo tài liệu: FastAPI và API HTTP FastAPI là framework Python xây dựng API dựa trên type hint và Pydantic. TestClient của FastAPI cho phép gọi endpoint mà không cần chạy server thật. (Nguồn: [python_fastapi.pdf, trang 3]; [python_fastapi.pdf, trang 2])",
+      "has_citation": true,
+      "keyword_coverage": 1.0,
+      "correct": true,
+      "latency_ms": 3.6918999976478517,
+      "error": ""
+    },
+    {
+      "id": "q16",
+      "category": "factual",
+      "question": "GET và POST khác nhau thế nào?",
+      "expected_sources": [
+        {
+          "file": "python_fastapi.pdf",
+          "page": 2
+        }
+      ],
+      "retrieved_sources": [
+        {
+          "file": "python_fastapi.pdf",
+          "page": 2
+        }
+      ],
+      "first_relevant_rank": 1,
+      "hit": true,
+      "recall": 1.0,
+      "evidence_found": true,
+      "answer": "Theo tài liệu: Các method phổ biến: - GET: đọc dữ liệu, không thay đổi trạng thái. - POST: tạo mới hoặc thực hiện hành động. (Nguồn: [python_fastapi.pdf, trang 2])",
+      "has_citation": true,
+      "keyword_coverage": 0.8888888888888888,
+      "correct": true,
+      "latency_ms": 2.9285999917192385,
+      "error": ""
+    },
+    {
+      "id": "q17",
+      "category": "factual",
+      "question": "Mã trạng thái HTTP 413 có nghĩa là gì?",
+      "expected_sources": [
+        {
+          "file": "python_fastapi.pdf",
+          "page": 2
+        }
+      ],
+      "retrieved_sources": [
+        {
+          "file": "python_fastapi.pdf",
+          "page": 2
+        }
+      ],
+      "first_relevant_rank": 1,
+      "hit": true,
+      "recall": 1.0,
+      "evidence_found": true,
+      "answer": "Theo tài liệu: Mã trạng thái hay dùng: 200 thành công, 201 tạo mới thành công, 400 request sai, 404 không tìm thấy, 413 file quá lớn, 422 dữ liệu không hợp lệ, 500 lỗi phía server. (Nguồn: [python_fastapi.pdf, trang 2])",
+      "has_citation": true,
+      "keyword_coverage": 0.8,
+      "correct": true,
+      "latency_ms": 2.7285999967716634,
+      "error": ""
+    },
+    {
+      "id": "q18",
+      "category": "factual",
+      "question": "Tài liệu API tự động của FastAPI nằm ở đâu?",
+      "expected_sources": [
+        {
+          "file": "python_fastapi.pdf",
+          "page": 2
+        }
+      ],
+      "retrieved_sources": [
+        {
+          "file": "python_fastapi.pdf",
+          "page": 2
+        },
+        {
+          "file": "python_fastapi.pdf",
+          "page": 3
+        }
+      ],
+      "first_relevant_rank": 1,
+      "hit": true,
+      "recall": 1.0,
+      "evidence_found": true,
+      "answer": "Theo tài liệu: Tài liệu API tự động có tại /docs khi chạy uvicorn. Ba tầng test nên có: Unit test: hàm thuần như chunking, normalize. Integration test: pipeline từ tài liệu tới câu trả lời. (Nguồn: [python_fastapi.pdf, trang 2]; [python_fastapi.pdf, trang 3])",
+      "has_citation": true,
+      "keyword_coverage": 0.6,
+      "correct": true,
+      "latency_ms": 3.4127999970223755,
+      "error": ""
+    },
+    {
+      "id": "q19",
+      "category": "factual",
+      "question": "Ba tầng test nên có trong project là gì?",
+      "expected_sources": [
+        {
+          "file": "python_fastapi.pdf",
+          "page": 3
+        }
+      ],
+      "retrieved_sources": [
+        {
+          "file": "python_fastapi.pdf",
+          "page": 3
+        },
+        {
+          "file": "python_fastapi.pdf",
+          "page": 1
+        }
+      ],
+      "first_relevant_rank": 1,
+      "hit": true,
+      "recall": 1.0,
+      "evidence_found": true,
+      "answer": "Theo tài liệu: Ba tầng test nên có: Unit test: hàm thuần như chunking, normalize. Integration test: pipeline từ tài liệu tới câu trả lời. (Nguồn: [python_fastapi.pdf, trang 3])",
+      "has_citation": true,
+      "keyword_coverage": 0.6,
+      "correct": true,
+      "latency_ms": 2.979199998662807,
+      "error": ""
+    },
+    {
+      "id": "q20",
+      "category": "reasoning",
+      "question": "Dependency injection giúp gì khi kiểm thử?",
+      "expected_sources": [
+        {
+          "file": "python_fastapi.pdf",
+          "page": 3
+        }
+      ],
+      "retrieved_sources": [
+        {
+          "file": "python_fastapi.pdf",
+          "page": 3
+        }
+      ],
+      "first_relevant_rank": 1,
+      "hit": true,
+      "recall": 1.0,
+      "evidence_found": true,
+      "answer": "Theo tài liệu: Dependency injection giúp thay hàm thật bằng hàm giả trong test. (Nguồn: [python_fastapi.pdf, trang 3])",
+      "has_citation": true,
+      "keyword_coverage": 0.35714285714285715,
+      "correct": false,
+      "latency_ms": 3.281600002082996,
+      "error": ""
+    },
+    {
+      "id": "q21",
+      "category": "factual",
+      "question": "OTD được tính như thế nào?",
+      "expected_sources": [
+        {
+          "file": "logistics_kpi.pdf",
+          "page": 1
+        }
+      ],
+      "retrieved_sources": [
+        {
+          "file": "logistics_kpi.pdf",
+          "page": 1
+        },
+        {
+          "file": "logistics_kpi.pdf",
+          "page": 2
+        }
+      ],
+      "first_relevant_rank": 1,
+      "hit": true,
+      "recall": 1.0,
+      "evidence_found": true,
+      "answer": "Theo tài liệu: Các chỉ số vận hành chuỗi cung ứng OTD (On-Time Delivery) là tỷ lệ đơn giao đúng hạn trên tổng đơn. (Nguồn: [logistics_kpi.pdf, trang 1])",
+      "has_citation": true,
+      "keyword_coverage": 0.6363636363636364,
+      "correct": true,
+      "latency_ms": 2.872700002626516,
+      "error": ""
+    },
+    {
+      "id": "q22",
+      "category": "factual",
+      "question": "Fill Rate là gì?",
+      "expected_sources": [
+        {
+          "file": "logistics_kpi.pdf",
+          "page": 1
+        }
+      ],
+      "retrieved_sources": [
+        {
+          "file": "logistics_kpi.pdf",
+          "page": 1
+        }
+      ],
+      "first_relevant_rank": 1,
+      "hit": true,
+      "recall": 1.0,
+      "evidence_found": true,
+      "answer": "Theo tài liệu: Fill Rate là tỷ lệ số lượng hàng giao được trên số lượng khách đặt. Fill Rate thấp thường do thiếu tồn kho hoặc lỗi phân bổ. (Nguồn: [logistics_kpi.pdf, trang 1])",
+      "has_citation": true,
+      "keyword_coverage": 1.0,
+      "correct": true,
+      "latency_ms": 2.996399998664856,
+      "error": ""
+    },
+    {
+      "id": "q23",
+      "category": "factual",
+      "question": "Inventory Turnover được tính thế nào?",
+      "expected_sources": [
+        {
+          "file": "logistics_kpi.pdf",
+          "page": 1
+        }
+      ],
+      "retrieved_sources": [
+        {
+          "file": "logistics_kpi.pdf",
+          "page": 1
+        }
+      ],
+      "first_relevant_rank": 1,
+      "hit": true,
+      "recall": 1.0,
+      "evidence_found": true,
+      "answer": "Theo tài liệu: Inventory Turnover (vòng quay tồn kho) bằng giá vốn hàng bán chia cho tồn kho trung bình. (Nguồn: [logistics_kpi.pdf, trang 1])",
+      "has_citation": true,
+      "keyword_coverage": 1.0,
+      "correct": true,
+      "latency_ms": 2.8149999998277053,
+      "error": ""
+    },
+    {
+      "id": "q24",
+      "category": "factual",
+      "question": "Dwell Time khác Lead Time ở điểm nào?",
+      "expected_sources": [
+        {
+          "file": "logistics_kpi.pdf",
+          "page": 1
+        }
+      ],
+      "retrieved_sources": [
+        {
+          "file": "logistics_kpi.pdf",
+          "page": 1
+        }
+      ],
+      "first_relevant_rank": 1,
+      "hit": true,
+      "recall": 1.0,
+      "evidence_found": true,
+      "answer": "Theo tài liệu: Dwell Time là thời gian hàng nằm chờ tại kho hoặc cảng. (Nguồn: [logistics_kpi.pdf, trang 1])",
+      "has_citation": true,
+      "keyword_coverage": 0.5714285714285714,
+      "correct": true,
+      "latency_ms": 2.652100010891445,
+      "error": ""
+    },
+    {
+      "id": "q25",
+      "category": "factual",
+      "question": "Quy trình kho cơ bản gồm những bước nào?",
+      "expected_sources": [
+        {
+          "file": "logistics_kpi.pdf",
+          "page": 2
+        }
+      ],
+      "retrieved_sources": [
+        {
+          "file": "logistics_kpi.pdf",
+          "page": 2
+        },
+        {
+          "file": "rag_co_ban.pdf",
+          "page": 2
+        }
+      ],
+      "first_relevant_rank": 1,
+      "hit": true,
+      "recall": 1.0,
+      "evidence_found": true,
+      "answer": "Theo tài liệu: Quy trình kho và nguyên tắc xuất hàng Quy trình kho cơ bản: receiving (nhận hàng), putaway (cất hàng), storage (lưu trữ), picking (lấy hàng), packing (đóng gói), shipping (xuất hàng). (Nguồn: [logistics_kpi.pdf, trang 2])",
+      "has_citation": true,
+      "keyword_coverage": 1.0,
+      "correct": true,
+      "latency_ms": 3.7072999984957278,
+      "error": ""
+    },
+    {
+      "id": "q26",
+      "category": "factual",
+      "question": "FIFO khác FEFO như thế nào?",
+      "expected_sources": [
+        {
+          "file": "logistics_kpi.pdf",
+          "page": 2
+        }
+      ],
+      "retrieved_sources": [
+        {
+          "file": "logistics_kpi.pdf",
+          "page": 2
+        }
+      ],
+      "first_relevant_rank": 1,
+      "hit": true,
+      "recall": 1.0,
+      "evidence_found": true,
+      "answer": "Theo tài liệu: FIFO (First In First Out) xuất lô nhập trước trước. (Nguồn: [logistics_kpi.pdf, trang 2])",
+      "has_citation": true,
+      "keyword_coverage": 0.5555555555555556,
+      "correct": true,
+      "latency_ms": 4.025699992780574,
+      "error": ""
+    },
+    {
+      "id": "q27",
+      "category": "factual",
+      "question": "FEFO bắt buộc với loại hàng nào?",
+      "expected_sources": [
+        {
+          "file": "logistics_kpi.pdf",
+          "page": 2
+        }
+      ],
+      "retrieved_sources": [
+        {
+          "file": "logistics_kpi.pdf",
+          "page": 2
+        }
+      ],
+      "first_relevant_rank": 1,
+      "hit": true,
+      "recall": 1.0,
+      "evidence_found": true,
+      "answer": "Theo tài liệu: FEFO bắt buộc với hàng có hạn sử dụng như thực phẩm và dược phẩm. FEFO (First Expired First Out) xuất lô gần hết hạn trước. (Nguồn: [logistics_kpi.pdf, trang 2])",
+      "has_citation": true,
+      "keyword_coverage": 1.0,
+      "correct": true,
+      "latency_ms": 3.2878000056371093,
+      "error": ""
+    },
+    {
+      "id": "q28",
+      "category": "factual",
+      "question": "Control Tower là gì?",
+      "expected_sources": [
+        {
+          "file": "logistics_kpi.pdf",
+          "page": 3
+        }
+      ],
+      "retrieved_sources": [
+        {
+          "file": "logistics_kpi.pdf",
+          "page": 3
+        }
+      ],
+      "first_relevant_rank": 1,
+      "hit": true,
+      "recall": 1.0,
+      "evidence_found": true,
+      "answer": "Theo tài liệu: Control Tower và chi phí Control Tower là trung tâm giám sát vận hành theo thời gian thực, tổng hợp dữ liệu từ nhiều hệ thống như TMS, WMS và ERP. (Nguồn: [logistics_kpi.pdf, trang 3])",
+      "has_citation": true,
+      "keyword_coverage": 1.0,
+      "correct": true,
+      "latency_ms": 3.1432999967364594,
+      "error": ""
+    },
+    {
+      "id": "q29",
+      "category": "factual",
+      "question": "Cost per Order được tính thế nào?",
+      "expected_sources": [
+        {
+          "file": "logistics_kpi.pdf",
+          "page": 3
+        }
+      ],
+      "retrieved_sources": [
+        {
+          "file": "logistics_kpi.pdf",
+          "page": 3
+        }
+      ],
+      "first_relevant_rank": 1,
+      "hit": true,
+      "recall": 1.0,
+      "evidence_found": true,
+      "answer": "Theo tài liệu: Cost per Order bằng tổng chi phí vận hành chia cho số đơn. (Nguồn: [logistics_kpi.pdf, trang 3])",
+      "has_citation": true,
+      "keyword_coverage": 1.0,
+      "correct": true,
+      "latency_ms": 3.267100008088164,
+      "error": ""
+    },
+    {
+      "id": "q30",
+      "category": "factual",
+      "question": "Ví dụ SLA trong tài liệu là gì?",
+      "expected_sources": [
+        {
+          "file": "logistics_kpi.pdf",
+          "page": 3
+        }
+      ],
+      "retrieved_sources": [
+        {
+          "file": "logistics_kpi.pdf",
+          "page": 3
+        },
+        {
+          "file": "python_fastapi.pdf",
+          "page": 1
+        }
+      ],
+      "first_relevant_rank": 1,
+      "hit": true,
+      "recall": 1.0,
+      "evidence_found": true,
+      "answer": "Theo tài liệu: SLA (Service Level Agreement) là cam kết mức dịch vụ, ví dụ giao trong 24 giờ đối với 95% đơn nội thành. (Nguồn: [logistics_kpi.pdf, trang 3])",
+      "has_citation": true,
+      "keyword_coverage": 1.0,
+      "correct": true,
+      "latency_ms": 3.9644000062253326,
+      "error": ""
+    },
+    {
+      "id": "q31",
+      "category": "paraphrase",
+      "question": "How does the system find relevant passages before answering?",
+      "expected_sources": [
+        {
+          "file": "rag_co_ban.pdf",
+          "page": 2
+        }
+      ],
+      "retrieved_sources": [],
+      "first_relevant_rank": null,
+      "hit": false,
+      "recall": 0.0,
+      "evidence_found": false,
+      "answer": "Tôi chưa tìm thấy bằng chứng phù hợp trong tài liệu để trả lời câu hỏi này. Bạn thử hỏi cụ thể hơn, hoặc tải thêm tài liệu liên quan.",
+      "has_citation": false,
+      "keyword_coverage": 0.0,
+      "correct": false,
+      "latency_ms": 0.6139000033726916,
+      "error": ""
+    },
+    {
+      "id": "q32",
+      "category": "paraphrase",
+      "question": "Why is overlap used between chunks?",
+      "expected_sources": [
+        {
+          "file": "rag_co_ban.pdf",
+          "page": 3
+        }
+      ],
+      "retrieved_sources": [],
+      "first_relevant_rank": null,
+      "hit": false,
+      "recall": 0.0,
+      "evidence_found": false,
+      "answer": "Tôi chưa tìm thấy bằng chứng phù hợp trong tài liệu để trả lời câu hỏi này. Bạn thử hỏi cụ thể hơn, hoặc tải thêm tài liệu liên quan.",
+      "has_citation": false,
+      "keyword_coverage": 0.0,
+      "correct": false,
+      "latency_ms": 0.5863999977009371,
+      "error": ""
+    },
+    {
+      "id": "q33",
+      "category": "paraphrase",
+      "question": "Which metric tells whether at least one correct source appears in the top-k results?",
+      "expected_sources": [
+        {
+          "file": "rag_co_ban.pdf",
+          "page": 4
+        }
+      ],
+      "retrieved_sources": [],
+      "first_relevant_rank": null,
+      "hit": false,
+      "recall": 0.0,
+      "evidence_found": false,
+      "answer": "Tôi chưa tìm thấy bằng chứng phù hợp trong tài liệu để trả lời câu hỏi này. Bạn thử hỏi cụ thể hơn, hoặc tải thêm tài liệu liên quan.",
+      "has_citation": false,
+      "keyword_coverage": 0.0,
+      "correct": false,
+      "latency_ms": 0.6410999922081828,
+      "error": ""
+    },
+    {
+      "id": "q34",
+      "category": "paraphrase",
+      "question": "What does FastAPI use to validate input data?",
+      "expected_sources": [
+        {
+          "file": "python_fastapi.pdf",
+          "page": 2
+        }
+      ],
+      "retrieved_sources": [],
+      "first_relevant_rank": null,
+      "hit": false,
+      "recall": 0.0,
+      "evidence_found": false,
+      "answer": "Tôi chưa tìm thấy bằng chứng phù hợp trong tài liệu để trả lời câu hỏi này. Bạn thử hỏi cụ thể hơn, hoặc tải thêm tài liệu liên quan.",
+      "has_citation": false,
+      "keyword_coverage": 0.0,
+      "correct": false,
+      "latency_ms": 0.5612000095425174,
+      "error": ""
+    },
+    {
+      "id": "q35",
+      "category": "paraphrase",
+      "question": "Which warehouse method ships batches that expire first?",
+      "expected_sources": [
+        {
+          "file": "logistics_kpi.pdf",
+          "page": 2
+        }
+      ],
+      "retrieved_sources": [],
+      "first_relevant_rank": null,
+      "hit": false,
+      "recall": 0.0,
+      "evidence_found": false,
+      "answer": "Tôi chưa tìm thấy bằng chứng phù hợp trong tài liệu để trả lời câu hỏi này. Bạn thử hỏi cụ thể hơn, hoặc tải thêm tài liệu liên quan.",
+      "has_citation": false,
+      "keyword_coverage": 0.0,
+      "correct": false,
+      "latency_ms": 0.56080000649672,
+      "error": ""
+    },
+    {
+      "id": "q36",
+      "category": "paraphrase",
+      "question": "Làm sao biết câu trả lời có được nguồn hỗ trợ?",
+      "expected_sources": [
+        {
+          "file": "rag_co_ban.pdf",
+          "page": 4
+        }
+      ],
+      "retrieved_sources": [
+        {
+          "file": "rag_co_ban.pdf",
+          "page": 4
+        }
+      ],
+      "first_relevant_rank": 1,
+      "hit": true,
+      "recall": 1.0,
+      "evidence_found": true,
+      "answer": "Theo tài liệu: LLM vẫn có thể diễn giải sai ngữ cảnh, bỏ qua bằng chứng, hoặc trả lời tự tin khi ngữ cảnh mơ hồ. - Hit Rate@k: tỷ lệ câu hỏi có ít nhất một nguồn đúng trong top-k. (Nguồn: [rag_co_ban.pdf, trang 4])",
+      "has_citation": true,
+      "keyword_coverage": 0.3888888888888889,
+      "correct": false,
+      "latency_ms": 2.299900006619282,
+      "error": ""
+    },
+    {
+      "id": "u01",
+      "category": "unanswerable",
+      "question": "Giá cổ phiếu của Smartlog hôm nay là bao nhiêu?",
+      "expected_sources": [],
+      "retrieved_sources": [],
+      "first_relevant_rank": null,
+      "hit": false,
+      "recall": 0.0,
+      "evidence_found": false,
+      "answer": "Tôi chưa tìm thấy bằng chứng phù hợp trong tài liệu để trả lời câu hỏi này. Bạn thử hỏi cụ thể hơn, hoặc tải thêm tài liệu liên quan.",
+      "has_citation": false,
+      "keyword_coverage": 0.0,
+      "correct": true,
+      "latency_ms": 1.2702999956673011,
+      "error": ""
+    },
+    {
+      "id": "u02",
+      "category": "unanswerable",
+      "question": "Làm sao để nấu phở bò ngon tại nhà?",
+      "expected_sources": [],
+      "retrieved_sources": [],
+      "first_relevant_rank": null,
+      "hit": false,
+      "recall": 0.0,
+      "evidence_found": false,
+      "answer": "Tôi chưa tìm thấy bằng chứng phù hợp trong tài liệu để trả lời câu hỏi này. Bạn thử hỏi cụ thể hơn, hoặc tải thêm tài liệu liên quan.",
+      "has_citation": false,
+      "keyword_coverage": 0.0,
+      "correct": true,
+      "latency_ms": 2.4384999996982515,
+      "error": ""
+    },
+    {
+      "id": "u03",
+      "category": "unanswerable",
+      "question": "Hệ thống này dùng mô hình GPT-5 nào?",
+      "expected_sources": [],
+      "retrieved_sources": [],
+      "first_relevant_rank": null,
+      "hit": false,
+      "recall": 0.0,
+      "evidence_found": false,
+      "answer": "Tôi chưa tìm thấy bằng chứng phù hợp trong tài liệu để trả lời câu hỏi này. Bạn thử hỏi cụ thể hơn, hoặc tải thêm tài liệu liên quan.",
+      "has_citation": false,
+      "keyword_coverage": 0.0,
+      "correct": true,
+      "latency_ms": 0.5873000045539811,
+      "error": ""
+    },
+    {
+      "id": "u04",
+      "category": "unanswerable",
+      "question": "Ai là tác giả của bài hát được nhắc trong tài liệu?",
+      "expected_sources": [],
+      "retrieved_sources": [],
+      "first_relevant_rank": null,
+      "hit": false,
+      "recall": 0.0,
+      "evidence_found": false,
+      "answer": "Tôi chưa tìm thấy bằng chứng phù hợp trong tài liệu để trả lời câu hỏi này. Bạn thử hỏi cụ thể hơn, hoặc tải thêm tài liệu liên quan.",
+      "has_citation": false,
+      "keyword_coverage": 0.0,
+      "correct": true,
+      "latency_ms": 2.449499996146187,
+      "error": ""
+    }
+  ]
+}

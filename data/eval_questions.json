@@ -1,0 +1,282 @@
+[
+  {
+    "id": "q01",
+    "category": "factual",
+    "question": "RAG là gì?",
+    "reference_answer": "RAG là kiến trúc kết hợp truy xuất tài liệu với mô hình ngôn ngữ lớn, đưa các đoạn liên quan vào ngữ cảnh để trả lời và trích dẫn nguồn.",
+    "expected_sources": [{"file": "rag_co_ban.pdf", "page": 1}]
+  },
+  {
+    "id": "q02",
+    "category": "factual",
+    "question": "Ba thành phần chính của RAG là gì?",
+    "reference_answer": "Kho tri thức đã chunk và embedding, bộ truy xuất top-k, và mô hình sinh câu trả lời.",
+    "expected_sources": [{"file": "rag_co_ban.pdf", "page": 1}]
+  },
+  {
+    "id": "q03",
+    "category": "reasoning",
+    "question": "Khi nào nên dùng RAG thay vì fine-tuning?",
+    "reference_answer": "Khi kiến thức thay đổi thường xuyên hoặc cần dẫn nguồn; fine-tuning phù hợp khi cần đổi phong cách, định dạng hoặc dạy kỹ năng mới.",
+    "expected_sources": [{"file": "rag_co_ban.pdf", "page": 1}]
+  },
+  {
+    "id": "q04",
+    "category": "factual",
+    "question": "Pha ingest trong pipeline RAG gồm những bước nào?",
+    "reference_answer": "Trích xuất text từ PDF theo trang, chia chunk có overlap, tạo embedding, lưu vector và metadata vào vector store.",
+    "expected_sources": [{"file": "rag_co_ban.pdf", "page": 2}]
+  },
+  {
+    "id": "q05",
+    "category": "factual",
+    "question": "Top-k mặc định và ngưỡng liên quan mặc định của project là bao nhiêu?",
+    "reference_answer": "Top-k mặc định là 4 và ngưỡng liên quan mặc định là 0.18.",
+    "expected_sources": [{"file": "rag_co_ban.pdf", "page": 2}]
+  },
+  {
+    "id": "q06",
+    "category": "factual",
+    "question": "Chunk size và overlap mặc định trong project là bao nhiêu?",
+    "reference_answer": "Chunk size mặc định 700 ký tự và overlap 120 ký tự.",
+    "expected_sources": [{"file": "rag_co_ban.pdf", "page": 3}]
+  },
+  {
+    "id": "q07",
+    "category": "reasoning",
+    "question": "Top-k nhỏ và top-k lớn ảnh hưởng thế nào đến chất lượng?",
+    "reference_answer": "Top-k nhỏ nhanh, ít nhiễu nhưng dễ bỏ sót bằng chứng; top-k lớn tăng recall nhưng prompt dài, chậm và dễ lạc đề.",
+    "expected_sources": [{"file": "rag_co_ban.pdf", "page": 3}]
+  },
+  {
+    "id": "q08",
+    "category": "factual",
+    "question": "Hit Rate@k và Recall@k đo gì?",
+    "reference_answer": "Hit Rate@k là tỷ lệ câu hỏi có ít nhất một nguồn đúng trong top-k; Recall@k là tỷ lệ nguồn đúng được tìm thấy trên tổng nguồn đúng.",
+    "expected_sources": [{"file": "rag_co_ban.pdf", "page": 4}]
+  },
+  {
+    "id": "q09",
+    "category": "factual",
+    "question": "MRR là gì?",
+    "reference_answer": "MRR là nghịch đảo thứ hạng của nguồn đúng đầu tiên.",
+    "expected_sources": [{"file": "rag_co_ban.pdf", "page": 4}]
+  },
+  {
+    "id": "q10",
+    "category": "reasoning",
+    "question": "RAG có loại bỏ hoàn toàn hallucination không?",
+    "reference_answer": "Không. LLM vẫn có thể diễn giải sai ngữ cảnh, bỏ qua bằng chứng hoặc trả lời tự tin khi ngữ cảnh mơ hồ.",
+    "expected_sources": [{"file": "rag_co_ban.pdf", "page": 4}]
+  },
+  {
+    "id": "q11",
+    "category": "factual",
+    "question": "PDF scan không có lớp text thì phải xử lý thế nào?",
+    "reference_answer": "Cần OCR trước khi đưa vào RAG vì không có text để trích xuất.",
+    "expected_sources": [{"file": "rag_co_ban.pdf", "page": 4}]
+  },
+  {
+    "id": "q12",
+    "category": "factual",
+    "question": "List khác dict như thế nào?",
+    "reference_answer": "List là dãy có thứ tự, truy cập theo vị trí; dict lưu cặp khóa-giá trị và tra cứu nhanh theo khóa.",
+    "expected_sources": [{"file": "python_fastapi.pdf", "page": 1}]
+  },
+  {
+    "id": "q13",
+    "category": "factual",
+    "question": "return khác print ở điểm nào?",
+    "reference_answer": "return trả giá trị cho nơi gọi hàm; print chỉ in ra màn hình. Test cần return để nhận giá trị.",
+    "expected_sources": [{"file": "python_fastapi.pdf", "page": 1}]
+  },
+  {
+    "id": "q14",
+    "category": "reasoning",
+    "question": "Vì sao nên dùng virtual environment?",
+    "reference_answer": "Để tách thư viện từng project, tránh xung đột phiên bản giữa các dự án.",
+    "expected_sources": [{"file": "python_fastapi.pdf", "page": 1}]
+  },
+  {
+    "id": "q15",
+    "category": "factual",
+    "question": "FastAPI là gì?",
+    "reference_answer": "FastAPI là framework Python xây dựng API dựa trên type hint và Pydantic.",
+    "expected_sources": [{"file": "python_fastapi.pdf", "page": 2}]
+  },
+  {
+    "id": "q16",
+    "category": "factual",
+    "question": "GET và POST khác nhau thế nào?",
+    "reference_answer": "GET dùng để đọc dữ liệu, không thay đổi trạng thái; POST dùng để tạo mới hoặc thực hiện hành động.",
+    "expected_sources": [{"file": "python_fastapi.pdf", "page": 2}]
+  },
+  {
+    "id": "q17",
+    "category": "factual",
+    "question": "Mã trạng thái HTTP 413 có nghĩa là gì?",
+    "reference_answer": "413 nghĩa là file quá lớn.",
+    "expected_sources": [{"file": "python_fastapi.pdf", "page": 2}]
+  },
+  {
+    "id": "q18",
+    "category": "factual",
+    "question": "Tài liệu API tự động của FastAPI nằm ở đâu?",
+    "reference_answer": "Tại đường dẫn /docs khi chạy uvicorn.",
+    "expected_sources": [{"file": "python_fastapi.pdf", "page": 2}]
+  },
+  {
+    "id": "q19",
+    "category": "factual",
+    "question": "Ba tầng test nên có trong project là gì?",
+    "reference_answer": "Unit test cho hàm thuần, integration test cho pipeline, và API test cho status code và schema.",
+    "expected_sources": [{"file": "python_fastapi.pdf", "page": 3}]
+  },
+  {
+    "id": "q20",
+    "category": "reasoning",
+    "question": "Dependency injection giúp gì khi kiểm thử?",
+    "reference_answer": "Cho phép thay hàm thật bằng hàm giả trong test mà không cần chạy server hay dịch vụ thật.",
+    "expected_sources": [{"file": "python_fastapi.pdf", "page": 3}]
+  },
+  {
+    "id": "q21",
+    "category": "factual",
+    "question": "OTD được tính như thế nào?",
+    "reference_answer": "OTD bằng số đơn giao đúng hạn chia cho tổng số đơn, nhân 100%.",
+    "expected_sources": [{"file": "logistics_kpi.pdf", "page": 1}]
+  },
+  {
+    "id": "q22",
+    "category": "factual",
+    "question": "Fill Rate là gì?",
+    "reference_answer": "Fill Rate là tỷ lệ số lượng hàng giao được trên số lượng khách đặt.",
+    "expected_sources": [{"file": "logistics_kpi.pdf", "page": 1}]
+  },
+  {
+    "id": "q23",
+    "category": "factual",
+    "question": "Inventory Turnover được tính thế nào?",
+    "reference_answer": "Bằng giá vốn hàng bán chia cho tồn kho trung bình.",
+    "expected_sources": [{"file": "logistics_kpi.pdf", "page": 1}]
+  },
+  {
+    "id": "q24",
+    "category": "factual",
+    "question": "Dwell Time khác Lead Time ở điểm nào?",
+    "reference_answer": "Dwell Time là thời gian hàng chờ tại kho hoặc cảng; Lead Time là tổng thời gian từ đặt hàng đến khi nhận hàng.",
+    "expected_sources": [{"file": "logistics_kpi.pdf", "page": 1}]
+  },
+  {
+    "id": "q25",
+    "category": "factual",
+    "question": "Quy trình kho cơ bản gồm những bước nào?",
+    "reference_answer": "Receiving, putaway, storage, picking, packing, shipping.",
+    "expected_sources": [{"file": "logistics_kpi.pdf", "page": 2}]
+  },
+  {
+    "id": "q26",
+    "category": "factual",
+    "question": "FIFO khác FEFO như thế nào?",
+    "reference_answer": "FIFO xuất lô nhập trước trước; FEFO xuất lô gần hết hạn trước.",
+    "expected_sources": [{"file": "logistics_kpi.pdf", "page": 2}]
+  },
+  {
+    "id": "q27",
+    "category": "factual",
+    "question": "FEFO bắt buộc với loại hàng nào?",
+    "reference_answer": "Hàng có hạn sử dụng như thực phẩm và dược phẩm.",
+    "expected_sources": [{"file": "logistics_kpi.pdf", "page": 2}]
+  },
+  {
+    "id": "q28",
+    "category": "factual",
+    "question": "Control Tower là gì?",
+    "reference_answer": "Là trung tâm giám sát vận hành theo thời gian thực, tổng hợp dữ liệu từ TMS, WMS và ERP.",
+    "expected_sources": [{"file": "logistics_kpi.pdf", "page": 3}]
+  },
+  {
+    "id": "q29",
+    "category": "factual",
+    "question": "Cost per Order được tính thế nào?",
+    "reference_answer": "Bằng tổng chi phí vận hành chia cho số đơn.",
+    "expected_sources": [{"file": "logistics_kpi.pdf", "page": 3}]
+  },
+  {
+    "id": "q30",
+    "category": "factual",
+    "question": "Ví dụ SLA trong tài liệu là gì?",
+    "reference_answer": "Giao trong 24 giờ đối với 95% đơn nội thành.",
+    "expected_sources": [{"file": "logistics_kpi.pdf", "page": 3}]
+  },
+  {
+    "id": "q31",
+    "category": "paraphrase",
+    "question": "How does the system find relevant passages before answering?",
+    "reference_answer": "It embeds the question, searches top-k chunks by cosine similarity, filters by a relevance threshold, then builds a grounded prompt.",
+    "expected_sources": [{"file": "rag_co_ban.pdf", "page": 2}]
+  },
+  {
+    "id": "q32",
+    "category": "paraphrase",
+    "question": "Why is overlap used between chunks?",
+    "reference_answer": "Overlap prevents an answer from being cut in half at the boundary between two chunks.",
+    "expected_sources": [{"file": "rag_co_ban.pdf", "page": 3}]
+  },
+  {
+    "id": "q33",
+    "category": "paraphrase",
+    "question": "Which metric tells whether at least one correct source appears in the top-k results?",
+    "reference_answer": "Hit Rate@k.",
+    "expected_sources": [{"file": "rag_co_ban.pdf", "page": 4}]
+  },
+  {
+    "id": "q34",
+    "category": "paraphrase",
+    "question": "What does FastAPI use to validate input data?",
+    "reference_answer": "Type hints and Pydantic.",
+    "expected_sources": [{"file": "python_fastapi.pdf", "page": 2}]
+  },
+  {
+    "id": "q35",
+    "category": "paraphrase",
+    "question": "Which warehouse method ships batches that expire first?",
+    "reference_answer": "FEFO, First Expired First Out.",
+    "expected_sources": [{"file": "logistics_kpi.pdf", "page": 2}]
+  },
+  {
+    "id": "q36",
+    "category": "paraphrase",
+    "question": "Làm sao biết câu trả lời có được nguồn hỗ trợ?",
+    "reference_answer": "Kiểm tra trích dẫn file/trang và đối chiếu câu trả lời với đúng đoạn ngữ cảnh đã truy xuất.",
+    "expected_sources": [{"file": "rag_co_ban.pdf", "page": 4}]
+  },
+  {
+    "id": "u01",
+    "category": "unanswerable",
+    "question": "Giá cổ phiếu của Smartlog hôm nay là bao nhiêu?",
+    "reference_answer": "",
+    "expected_sources": []
+  },
+  {
+    "id": "u02",
+    "category": "unanswerable",
+    "question": "Làm sao để nấu phở bò ngon tại nhà?",
+    "reference_answer": "",
+    "expected_sources": []
+  },
+  {
+    "id": "u03",
+    "category": "unanswerable",
+    "question": "Hệ thống này dùng mô hình GPT-5 nào?",
+    "reference_answer": "",
+    "expected_sources": []
+  },
+  {
+    "id": "u04",
+    "category": "unanswerable",
+    "question": "Ai là tác giả của bài hát được nhắc trong tài liệu?",
+    "reference_answer": "",
+    "expected_sources": []
+  }
+]

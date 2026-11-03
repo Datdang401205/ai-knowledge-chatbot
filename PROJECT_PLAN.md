@@ -12,16 +12,16 @@ Người dùng tải tài liệu lên (bắt đầu với PDF), đặt câu hỏ
 
 ### Phạm vi MVP
 
-- [ ] Tải và đọc file PDF.
-- [ ] Chia văn bản thành các đoạn (chunking).
-- [ ] Tạo embeddings và lưu vector.
-- [ ] Tìm các đoạn liên quan đến câu hỏi (retrieval).
-- [ ] Gửi câu hỏi cùng ngữ cảnh tìm được tới LLM.
-- [ ] Trả lời kèm tên file và trang/đoạn nguồn nếu có thể xác định.
-- [ ] Xử lý câu hỏi không có bằng chứng phù hợp.
-- [ ] Có giao diện đơn giản và hướng dẫn chạy local.
-- [ ] Có bộ câu hỏi đánh giá và báo cáo kết quả thực nghiệm.
-- [ ] Có README, sơ đồ kiến trúc, kiểm thử và ảnh/video demo.
+- [x] Tải và đọc file PDF.
+- [x] Chia văn bản thành các đoạn (chunking).
+- [x] Tạo embeddings và lưu vector.
+- [x] Tìm các đoạn liên quan đến câu hỏi (retrieval).
+- [x] Gửi câu hỏi cùng ngữ cảnh tìm được tới LLM. — Có provider `ollama`; mặc định `extractive` để chạy offline.
+- [x] Trả lời kèm tên file và trang/đoạn nguồn nếu có thể xác định.
+- [x] Xử lý câu hỏi không có bằng chứng phù hợp.
+- [x] Có giao diện đơn giản và hướng dẫn chạy local. — Streamlit + FastAPI.
+- [x] Có bộ câu hỏi đánh giá và báo cáo kết quả thực nghiệm.
+- [ ] Có README, sơ đồ kiến trúc, kiểm thử và ảnh/video demo. — README/sơ đồ/test có; **ảnh/video demo chưa có**.
 
 ### Không nằm trong MVP
 
@@ -180,13 +180,13 @@ Có thể giữ cấu trúc đơn giản hơn trong tuần đầu. Không tạo 
 
 **Mục tiêu:** thay luật cố định bằng mô hình ngôn ngữ.
 
-- [ ] Tìm hiểu LLM, prompt, system message, user message, token, context window.
-- [ ] Cài và chạy Ollama nếu phần cứng đáp ứng; chọn một model nhỏ phù hợp.
-- [ ] Gọi mô hình từ Python qua API local.
-- [ ] Tách cấu hình model và URL khỏi logic chính.
-- [ ] Xử lý timeout, lỗi kết nối và câu trả lời rỗng.
-- [ ] Viết prompt yêu cầu trả lời bằng ngôn ngữ phù hợp và thừa nhận khi không biết.
-- [ ] Không lưu secret hoặc thông tin riêng tư trong Git.
+- [x] Tìm hiểu LLM, prompt, system message, user message, token, context window. — Đã ghi trong docs/BAI_HOC_TUAN_1.md và áp dụng qua code.
+- [ ] Cài và chạy Ollama nếu phần cứng đáp ứng; chọn một model nhỏ phù hợp. — Chưa cài Ollama trên máy này (ollama không tồn tại). Sẵn sàng tích hợp khi có.
+- [x] Gọi mô hình từ Python qua API local. — `src/chatbot/llm.py` gọi Ollama `/api/chat` qua `requests`.
+- [x] Tách cấu hình model và URL khỏi logic chính. — `src/chatbot/config.py` đọc từ `.env` (OLLAMA_BASE_URL/MODEL/TIMEOUT), `.env.example` đã cập nhật.
+- [x] Xử lý timeout, lỗi kết nối và câu trả lời rỗng. — `LLMConnectionError`/`LLMTimeoutError`/`LLMResponseError`, thông báo thân thiện trong `responder.py`.
+- [x] Viết prompt yêu cầu trả lời bằng ngôn ngữ phù hợp và thừa nhận khi không biết. — `LLM_SYSTEM_PROMPT` trong config, yêu cầu trả lời đúng ngôn ngữ và nói rõ nếu không chắc chắn.
+- [x] Không lưu secret hoặc thông tin riêng tư trong Git. — `.env` đã có trong `.gitignore`, chỉ có `.env.example`.
 
 **Bài tập kiểm tra:** so sánh cùng một câu hỏi với 2 prompt; ghi lại khác biệt và giải thích vì sao prompt không đảm bảo sự thật tuyệt đối.
 
@@ -196,68 +196,76 @@ Có thể giữ cấu trúc đơn giản hơn trong tuần đầu. Không tạo 
 
 **Mục tiêu:** chuẩn bị dữ liệu để truy xuất.
 
-- [ ] Chọn 3–5 tài liệu PDF phù hợp và được phép sử dụng.
-- [ ] Trích xuất text theo trang; ghi nhận file và số trang.
-- [ ] Kiểm tra PDF scan không có text và xử lý bằng thông báo phù hợp.
-- [ ] Viết hàm chunking có kích thước và overlap cấu hình được.
-- [ ] Kiểm tra chunk rỗng, chunk quá ngắn và mất metadata.
-- [ ] Tạo embeddings bằng mô hình hỗ trợ ngôn ngữ của tài liệu.
-- [ ] Thử tính tương đồng giữa các đoạn có liên quan và không liên quan.
+- [x] Chọn 3–5 tài liệu PDF phù hợp và được phép sử dụng. — 3 tài liệu tự sinh bằng `scripts/make_sample_docs.py` + 1 PDF scan để test lỗi.
+- [x] Trích xuất text theo trang; ghi nhận file và số trang. — `ingest.py` dùng PyMuPDF, `PageText(source, page, text)`.
+- [x] Kiểm tra PDF scan không có text và xử lý bằng thông báo phù hợp. — `scan_khong_text.pdf` sinh cảnh báo, không làm hỏng index.
+- [x] Viết hàm chunking có kích thước và overlap cấu hình được. — `chunking.py`, cắt ưu tiên ranh giới đoạn/câu, ID sha1 ổn định.
+- [x] Kiểm tra chunk rỗng, chunk quá ngắn và mất metadata. — Có `min_chars`, bỏ trang rỗng, giữ `source/page/chunk_index/start_char/end_char`.
+- [x] Tạo embeddings bằng mô hình hỗ trợ ngôn ngữ của tài liệu. — Mặc định `HashingEmbedder` offline; tùy chọn `OllamaEmbedder` (`nomic-embed-text`).
+- [x] Thử tính tương đồng giữa các đoạn có liên quan và không liên quan. — Test trong `tests/test_embeddings.py` và `tests/test_retrieval.py`.
 
 **Bài tập kiểm tra:** in ra 5 chunks, kiểm tra trang nguồn; thay đổi chunk size/overlap và ghi nhận tác động.
 
 **Definition of Done:** pipeline đọc PDF tạo được chunks có metadata và embeddings tái lập được.
 
+**Tài liệu học:** `docs/BAI_HOC_TUAN_3.md` — PyMuPDF, lỗi PDF scan/ký tự ẩn, chunk size/overlap, hashing embedding, chuẩn hoá L2.
+
 ### Tuần 4 — Retrieval và RAG end-to-end
 
 **Mục tiêu:** chatbot trả lời dựa trên tài liệu, có nguồn.
 
-- [ ] Chọn một vector store: Chroma hoặc FAISS.
-- [ ] Lưu embeddings cùng metadata.
-- [ ] Với mỗi câu hỏi, truy xuất top-k chunks.
-- [ ] Hiển thị nội dung truy xuất để debug trước khi gọi LLM.
-- [ ] Viết prompt chứa câu hỏi và ngữ cảnh truy xuất.
-- [ ] Yêu cầu câu trả lời dựa trên ngữ cảnh, không tự thêm dữ kiện.
-- [ ] Trả về nguồn file/trang tương ứng.
-- [ ] Xử lý trường hợp retrieval không đủ liên quan.
-- [ ] Tạo ít nhất 20 câu hỏi đánh giá ban đầu.
+- [x] Chọn một vector store: Chroma hoặc FAISS. — Chọn **tự viết** `VectorStore` (numpy + JSON) thay vì Chroma/FAISS để hiểu cơ chế; interface `add/search/save/load` đủ để thay backend sau.
+- [x] Lưu embeddings cùng metadata. — `data/index/store.json` + `manifest.json` (provider, dimension, cấu hình retrieval).
+- [x] Với mỗi câu hỏi, truy xuất top-k chunks. — `retrieval.py`: vector cosine + lexical coverage + IDF (hybrid).
+- [x] Hiển thị nội dung truy xuất để debug trước khi gọi LLM. — `python src/main.py ask --retrieve-only "..."`.
+- [x] Viết prompt chứa câu hỏi và ngữ cảnh truy xuất. — `build_rag_prompt`, `RAG_SYSTEM_PROMPT`.
+- [x] Yêu cầu câu trả lời dựa trên ngữ cảnh, không tự thêm dữ kiện. — Prompt ràng buộc; generator `extractive` chỉ trích câu từ ngữ cảnh.
+- [x] Trả về nguồn file/trang tương ứng. — `Source(file, page, score, chunk_id)`, chỉ trích dẫn nguồn thực sự dùng.
+- [x] Xử lý trường hợp retrieval không đủ liên quan. — Ngưỡng `MIN_RELEVANCE_SCORE`, `NO_EVIDENCE_MESSAGE`, kiểm tra thực thể lạ.
+- [x] Tạo ít nhất 20 câu hỏi đánh giá ban đầu. — `data/eval_questions.json` có 40 câu (36 có đáp án + 4 ngoài tài liệu).
 
 **Bài tập kiểm tra:** hỏi một câu có câu trả lời trong tài liệu, một câu ngoài tài liệu và một câu mơ hồ; xem nguồn truy xuất có phù hợp không.
 
 **Definition of Done:** chạy được toàn bộ luồng PDF → chunks → embeddings → retrieval → LLM → answer + sources.
 
+**Tài liệu học:** `docs/BAI_HOC_TUAN_4.md` — cosine, hybrid retrieval, IDF, grounding, kiểm tra thực thể lạ, generator extractive.
+
 ### Tuần 5 — Đánh giá và cải thiện
 
 **Mục tiêu:** chứng minh chất lượng bằng dữ liệu thay vì cảm giác.
 
-- [ ] Tạo bộ đánh giá khoảng 30–50 câu hỏi, có câu trả lời tham chiếu và nguồn mong đợi.
-- [ ] Đo Hit Rate@k hoặc Recall@k cho retrieval.
-- [ ] Kiểm tra answer correctness bằng tiêu chí rõ ràng; có thể chấm thủ công nếu dữ liệu nhỏ.
-- [ ] Đánh giá source/grounding: câu trả lời có được hỗ trợ bởi chunks không?
-- [ ] Thử các chunk size và top-k khác nhau.
-- [ ] Ghi lại baseline, thay đổi, kết quả và giới hạn.
-- [ ] Thêm unit tests cho chunking và retrieval.
-- [ ] Không chọn cấu hình chỉ vì một vài ví dụ tốt.
+- [x] Tạo bộ đánh giá khoảng 30–50 câu hỏi, có câu trả lời tham chiếu và nguồn mong đợi. — 40 câu: factual, reasoning, paraphrase (Anh), unanswerable.
+- [x] Đo Hit Rate@k hoặc Recall@k cho retrieval. — Có Hit Rate@k, Recall@k, MRR trong `evaluation.py`.
+- [x] Kiểm tra answer correctness bằng tiêu chí rõ ràng; có thể chấm thủ công nếu dữ liệu nhỏ. — Tự động theo keyword coverage ≥ 0.5; báo cáo ghi rõ đây là thước đo thô.
+- [x] Đánh giá source/grounding: câu trả lời có được hỗ trợ bởi chunks không? — Đo `citation_rate`; trích dẫn chỉ lấy nguồn thực sự dùng.
+- [x] Thử các chunk size và top-k khác nhau. — `scripts/run_experiments.py`: 400/700/1000 × top-k 2/4/6.
+- [x] Ghi lại baseline, thay đổi, kết quả và giới hạn. — `reports/evaluation.md`, `reports/experiments.md`, `reports/*.json`.
+- [x] Thêm unit tests cho chunking và retrieval. — Thêm test cho toàn bộ pipeline, API, evaluation; tổng 84 test.
+- [x] Không chọn cấu hình chỉ vì một vài ví dụ tốt. — Cấu hình mặc định giữ 700/120/top-4; số liệu thực nghiệm ghi riêng, không tuyên bố vượt trội.
 
 **Definition of Done:** có báo cáo đánh giá, giải thích được cách đo, kết quả và các trường hợp thất bại. Không tự đặt số liệu trước khi chạy.
+
+**Tài liệu học:** `docs/BAI_HOC_TUAN_5.md` — thiết kế bộ eval, Hit Rate/Recall/MRR, answer accuracy, abstention, đọc thực nghiệm.
 
 ### Tuần 6 — API, giao diện và portfolio
 
 **Mục tiêu:** đóng gói thành sản phẩm demo được.
 
-- [ ] Tạo API FastAPI cho health check, ingest tài liệu và hỏi đáp.
-- [ ] Tạo giao diện Streamlit tải PDF, nhập câu hỏi và xem nguồn.
-- [ ] Thêm trạng thái đang xử lý và thông báo lỗi dễ hiểu.
-- [ ] Kiểm tra file không hợp lệ và giới hạn kích thước file.
-- [ ] Thêm logging không ghi nội dung nhạy cảm không cần thiết.
-- [ ] Viết tests cho luồng chính và các lỗi phổ biến.
-- [ ] Cập nhật `.gitignore`, `.env.example`, `requirements.txt`.
-- [ ] Viết README hoàn chỉnh và sơ đồ kiến trúc.
-- [ ] Chụp ảnh/gif hoặc quay video demo 1–2 phút.
-- [ ] Triển khai demo nếu có phương án miễn phí phù hợp; nếu không, hướng dẫn chạy local đầy đủ.
-- [ ] Viết phần mô tả project trong CV dựa trên tính năng và số liệu đã xác minh.
+- [x] Tạo API FastAPI cho health check, ingest tài liệu và hỏi đáp. — `chatbot/api.py`: `/`, `/health`, `/stats`, `/ask`, `/documents`.
+- [x] Tạo giao diện Streamlit tải PDF, nhập câu hỏi và xem nguồn. — `chatbot/streamlit_app.py`, có build index, upload, chat, expander nguồn.
+- [x] Thêm trạng thái đang xử lý và thông báo lỗi dễ hiểu. — `st.spinner`, `st.error`, HTTP 415/422/413 với `detail` tiếng Việt.
+- [x] Kiểm tra file không hợp lệ và giới hạn kích thước file. — Chỉ `.pdf/.txt/.md`, tối đa `MAX_UPLOAD_BYTES` (15 MB).
+- [x] Thêm logging không ghi nội dung nhạy cảm không cần thiết. — Log lỗi ingest/LLM, không log nội dung câu hỏi/tài liệu.
+- [x] Viết tests cho luồng chính và các lỗi phổ biến. — `tests/test_api.py`, `test_rag_pipeline.py`, `test_evaluation.py`.
+- [x] Cập nhật `.gitignore`, `.env.example`, `requirements.txt`. — Đã thêm `data/index/`, `reports/` (trừ file mẫu), biến môi trường mới.
+- [x] Viết README hoàn chỉnh và sơ đồ kiến trúc. — README 12 mục, sơ đồ luồng dữ liệu + bảng module.
+- [ ] Chụp ảnh/gif hoặc quay video demo 1–2 phút. — **Chưa làm**; cần chạy UI thật và ghi màn hình.
+- [ ] Triển khai demo nếu có phương án miễn phí phù hợp; nếu không, hướng dẫn chạy local đầy đủ. — Chưa deploy; README có hướng dẫn chạy local.
+- [ ] Viết phần mô tả project trong CV dựa trên tính năng và số liệu đã xác minh. — Chưa viết; số liệu đã có trong `reports/`.
 
 **Definition of Done:** người khác có thể làm theo README để chạy project; có demo, tests, kết quả đánh giá và giới hạn được ghi rõ.
+
+**Tài liệu học:** `docs/BAI_HOC_TUAN_6.md` — FastAPI app factory, validation/upload an toàn, Streamlit session state, đóng gói demo.
 
 ---
 
@@ -352,14 +360,29 @@ Cập nhật sau mỗi buổi:
 |---|---|---|---|---|
 | YYYY-MM-DD | | | | |
 | 2026-10-22 | Tuần 1: tạo `.venv`, nâng pip, cài pytest, dựng package `src/chatbot` (config / intents / main), launcher `src/main.py`, 30 test, `.gitignore`, `.gitattributes`, `requirements.txt`, `pyproject.toml`, `.env.example`, README 12 mục, git init + commit đầu tiên | `pytest` → 30 passed; chạy tay `python src/main.py` xử lý đúng 5 intent + fallback + lệnh thoát; commit `2b6f5c8` | Console Windows dùng `cp1252` in tiếng Việt lỗi → đã ép UTF-8 bằng `configure_console_encoding()`; khớp từ khóa dạng substring gây nhầm "hi" trong "khi nào" → chuyển sang khớp cụm từ theo token | Làm bài tập Tuần 1 (thêm intent `feedback`, giải thích `if __name__ == "__main__":`), sau đó bắt đầu Tuần 2: cài Ollama + gọi LLM từ Python |
+| 2026-10-23 | Tuần 2: thêm tích hợp Ollama (`src/chatbot/llm.py`), `responder` phân tách rule-based/llm, cập nhật config/system prompt, xử lý lỗi timeout/kết nối/rỗng, thêm test lỗi LLM, cập nhật requirements/.env.example | `pytest` → 21 passed (toàn bộ test suite); imports OK; chế độ mặc định vẫn rule-based | Ollama chưa cài trên máy; đã thêm xử lý lỗi thân thiện và hướng dẫn khi không kết nối được | Cài Ollama + tải model nhỏ (vd qwen2.5:3b) nếu muốn test chế độ llm; hoặc chuyển sang Tuần 3 (PDF/chunking) theo kế hoạch |
+| 2026-10-23 | Tuần 3–6: thêm `chunking`, `ingest` (PyMuPDF, cảnh báo PDF scan), `embeddings` (hashing offline + Ollama tùy chọn), `vector_store` (numpy + JSON), `retrieval` (hybrid cosine + lexical + IDF, chặn thực thể lạ), `generation` (extractive + Ollama), `rag_pipeline`, `evaluation`, `cli` (chat/ingest/ask/eval/serve), `api` FastAPI, `streamlit_app`; sinh 3 PDF mẫu + 1 PDF scan; tạo 40 câu hỏi đánh giá; viết test cho toàn bộ module | `pytest` → **84 passed**; `eval` top_k=4 → Hit Rate **86.11%**, Recall **86.11%**, MRR **0.806**, answer accuracy **72.5%**, abstention **100%**, latency TB **2.79 ms**; thực nghiệm 400/700/1000 × top-k 2/4/6 → MRR tốt nhất 0.833 ở chunk 400 | Generator mặc định là extractive nên câu trả lời còn cụt/ghép nhiều câu; câu hỏi paraphrase tiếng Anh bị hụt vì embedding hashing không hiểu ngữ nghĩa; Ollama chưa cài nên chưa đo chất lượng LLM thật | Bổ sung ảnh/video demo, viết mô tả CV, và nếu có Ollama thì chạy lại `eval` với `LLM_PROVIDER=ollama` |
+
+### Ghi chú quyết định Tuần 3–6
+
+| Vấn đề | Quyết định | Lý do |
+|---|---|---|
+| Vector store | Tự viết bằng numpy + JSON thay vì Chroma/FAISS | Dữ liệu nhỏ, cần thấy rõ cosine similarity và cấu trúc lưu; interface đủ để thay backend sau |
+| Embedding mặc định | `HashingEmbedder` offline, 1024 chiều | Chạy không cần model, tất định, test ổn định; chấp nhận không hiểu đồng nghĩa |
+| Embedding tùy chọn | `OllamaEmbedder` (`nomic-embed-text`) | Có đường nâng cấp ngữ nghĩa khi máy đủ tài nguyên |
+| Generator mặc định | `extractive` | Không cần LLM, dùng để test retrieval/grounding và làm baseline |
+| Generator tùy chọn | `OllamaGenerator` + `RAG_SYSTEM_PROMPT` | Trả lời tự nhiên hơn nhưng cần Ollama và kiểm tra hallucination |
+| Retrieval | Hybrid: 0.5 cosine + 0.5 lexical coverage có IDF | Hashing embedding yếu về ngữ nghĩa; IDF giúp thuật ngữ hiếm ("OTD") thắng từ phổ biến |
+| Chống bịa | Ngưỡng `MIN_RELEVANCE_SCORE=0.25` + kiểm tra thực thể lạ | Từ chối câu hỏi ngoài tài liệu rõ ràng hơn chỉ dựa vào cosine |
+| Chunk mặc định | 700 ký tự, overlap 120 | Cân bằng ngữ cảnh và nhiễu; số liệu thực nghiệm không đủ để khẳng định cấu hình khác tốt hơn |
 
 ### Trạng thái hiện tại
 
 - [x] Tuần 1 — Python project và chatbot CLI *(hoàn thành 2026-10-22)*
-- [ ] Tuần 2 — LLM và prompt
-- [ ] Tuần 3 — PDF, chunking và embeddings
-- [ ] Tuần 4 — Retrieval và RAG
-- [ ] Tuần 5 — Đánh giá và cải thiện
-- [ ] Tuần 6 — API, UI và portfolio
+- [x] Tuần 2 — LLM và prompt *(tích hợp xong; chưa test với Ollama thật)*
+- [x] Tuần 3 — PDF, chunking và embeddings *(hoàn thành 2026-10-23)*
+- [x] Tuần 4 — Retrieval và RAG *(hoàn thành 2026-10-23)*
+- [x] Tuần 5 — Đánh giá và cải thiện *(hoàn thành 2026-10-23; báo cáo trong `reports/`)*
+- [x] Tuần 6 — API, UI và portfolio *(API/UI/README xong; còn ảnh/video demo và deploy)*
 
-**Bước tiếp theo:** làm nốt 3 bài tập kiểm tra của Tuần 1 (thêm intent `feedback`, giải thích `if __name__ == "__main__":`, tự chạy lại toàn bộ chuỗi lệnh mà không cần nhìn README), rồi bắt đầu Tuần 2 bằng việc kiểm tra phần cứng và cài Ollama với một model nhỏ.
+**Bước tiếp theo:** chạy `streamlit run src/chatbot/streamlit_app.py` và `uvicorn chatbot.api:app --reload` để kiểm tra giao diện; chụp ảnh/quay video demo; nếu cài Ollama, chạy lại `eval` với `LLM_PROVIDER=ollama` để so sánh với baseline extractive.

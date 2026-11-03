@@ -17,6 +17,9 @@ htmlcov/
 # Secret & biến môi trường
 .env
 
+# Index sinh tự động
+data/index/
+
 # IDE
 .idea/
 .vscode/
